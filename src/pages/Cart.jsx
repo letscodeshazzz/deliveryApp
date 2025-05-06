@@ -9,4 +9,4 @@ const Cart = () => {
   );
 };
 
-export default Cart; // Ensure there's a default export here
+export default Cart;

@@ -9,4 +9,4 @@ const Orders = () => {
   );
 };
 
-export default Orders; // Ensure there's a default export here
+export default Orders; 
