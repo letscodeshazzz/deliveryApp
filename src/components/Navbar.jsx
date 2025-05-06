@@ -7,7 +7,7 @@ const Navbar = () => {
       style={{
         background: "Red", // Main background color
         width: "100vw",
-        height:"5vw", //
+        height:"2vw", //
         //  Adjusted to ensure the navbar fits within the container
        
       }}

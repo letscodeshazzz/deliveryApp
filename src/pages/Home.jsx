@@ -16,7 +16,7 @@ const Home = () => {
   const restaurants = [
     { 
       id: 1, 
-      name: "Moti Mahal", 
+      name: "Moti Maha0", 
       description: "Award-winnin Veg and authentic  cuisine", 
       rating: 4.8,
       image: "/images/Moti.jpg"
