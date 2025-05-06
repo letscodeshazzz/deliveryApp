@@ -4,9 +4,10 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: "red" }}>
       <div className="container d-flex justify-content-between flex-wrap">
-        <Link className="navbar-brand fw-bold text-white" to="/">
+        <Link className="navbar-brand fw-bold text-warning" to="/">
           FoodJet
         </Link>
+    
 
         <ul className="navbar-nav d-flex flex-row flex-wrap ms-auto">
           <li className="nav-item mx-2">
