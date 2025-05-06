@@ -2,62 +2,44 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-light"
-      style={{
-        background: "Red", // Main background color
-        width: "100vw",
-        height:"2vw", //
-        //  Adjusted to ensure the navbar fits within the container
-       
-      }}
-    >
-      <div className="container">
-        <Link className="navbar-brand text-white fw-bold" to="/">
+    <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: "red" }}>
+      <div className="container d-flex justify-content-between flex-wrap">
+        <Link className="navbar-brand fw-bold text-white" to="/">
           FoodJet
         </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#mainNavbar"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="mainNavbar">
-          <ul className="navbar-nav ms-auto mb-5 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link text-white" to="/restaurants">
-                Restaurants
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-white" to="/cart">
-                Cart
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-white" to="/orders">
-                Orders
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-white" to="/login">
-                Login
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-white" to="/signup">
-                Signup
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-white" to="/yourfavourites">
-                Your favourites
-              </Link>
-            </li>
-          </ul>
-        </div>
+
+        <ul className="navbar-nav d-flex flex-row flex-wrap ms-auto">
+          <li className="nav-item mx-2">
+            <Link className="nav-link text-white" to="/restaurants">
+              Restaurants
+            </Link>
+          </li>
+          <li className="nav-item mx-2">
+            <Link className="nav-link text-white" to="/cart">
+              Cart
+            </Link>
+          </li>
+          <li className="nav-item mx-2">
+            <Link className="nav-link text-white" to="/orders">
+              Orders
+            </Link>
+          </li>
+          <li className="nav-item mx-2">
+            <Link className="nav-link text-white" to="/login">
+              Login
+            </Link>
+          </li>
+          <li className="nav-item mx-2">
+            <Link className="nav-link text-white" to="/signup">
+              Signup
+            </Link>
+          </li>
+          <li className="nav-item mx-2">
+            <Link className="nav-link text-white" to="/yourfavourites">
+              Your Favourites
+            </Link>
+          </li>
+        </ul>
       </div>
     </nav>
   );
