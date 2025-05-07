@@ -27,6 +27,7 @@ const restaurantMenus = {
     { id: 208, name: "Paneer Tikka Burger", price: 180 },
     { id: 209, name: "Spicy Chicken Burger", price: 220 },
     { id: 210, name: "Classic Veg Burger", price: 140 },
+    { id: 210, name: "White Sauce Pasta", price: 300 },
   ],
   3: [
     { id: 301, name: "Haleem", price: 350 },
@@ -42,6 +43,13 @@ const restaurantMenus = {
   ],
 };
 
+
+const restaurantNames = {
+  1: "Moti Mahal-all your tasties here",
+  2: "Home Sweet Home-time for yumm",
+  3: "Tunday Kebab-shaahi zaika nawabo ka",
+};
+
 const RestaurantDetails = () => {
   const { id } = useParams();
   const menu = restaurantMenus[id] || [];
@@ -49,17 +57,16 @@ const RestaurantDetails = () => {
   const [addedToCart, setAddedToCart] = useState(null);
 
   const addToCart = (item) => {
-
     dispatch({ type: "ADD_TO_CART", payload: item });
-
     setAddedToCart(item);
-
     setTimeout(() => setAddedToCart(null), 3000);
   };
 
   return (
     <Container className="mt-5">
-      <h2 className="mb-4">Menu</h2>
+   
+      <h2 className="mb-4">{restaurantNames[id]}</h2>
+
       {menu.length === 0 ? (
         <p>No menu found for this restaurant.</p>
       ) : (
@@ -91,9 +98,7 @@ const RestaurantDetails = () => {
           autohide
           delay={3000}
         >
-          <Toast.Body>
-            {addedToCart.name} added to cart!
-          </Toast.Body>
+          <Toast.Body>{addedToCart.name} added to cart!</Toast.Body>
         </Toast>
       )}
     </Container>
