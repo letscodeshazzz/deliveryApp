@@ -17,7 +17,7 @@ const Home = () => {
     { 
       id: 1, 
       name: "Moti Mahal", 
-      description: "Award-winnin Veg and authentic  cuisine", 
+      description: "Award-winning Veg and authentic  cuisine", 
       rating: 4.8,
       image: "/images/Moti.jpg"
     },

@@ -1,18 +1,18 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { Routes, Route } from "react-router-dom"; 
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Restaurants from "./pages/Restaurants";
 import RestaurantDetails from "./pages/RestaurantDetails";
-import Cart from "./pages/Cart";
+import Cart from "./pages/CartPage";
 import Orders from "./pages/Orders";
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <Navbar />
       <div style={{ paddingTop: "80px", minHeight: "80vh" }}>
         <Routes>
@@ -26,7 +26,7 @@ function App() {
         </Routes>
       </div>
       <Footer />
-    </BrowserRouter>
+    </>
   );
 }
 
