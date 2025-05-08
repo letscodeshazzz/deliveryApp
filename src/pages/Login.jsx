@@ -1,22 +1,46 @@
-import { Container, Form, Button, Card } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Form, Button, Alert, Card } from "react-bootstrap";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!form.email || !form.password) {
+      setError("All fields are required");
+    } else {
+      setError("");
+      login();                            // ✅ update login state
+      alert("Login successful!");
+      navigate("/");           // ✅ redirect
+    }
+  };
+
   return (
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
-      <Card className="p-4 shadow" style={{ maxWidth: "400px", width: "100%" }}>
-        <h3 className="mb-4 text-center">Login to FoodJet</h3>
-        <Form>
+      <Card style={{ width: "100%", maxWidth: "400px" }} className="p-4">
+        <h3 className="text-center mb-3">Login</h3>
+        {error && <Alert variant="danger">{error}</Alert>}
+        <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control type="email" name="email" onChange={handleChange} />
           </Form.Group>
-
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Enter password" />
+            <Form.Control type="password" name="password" onChange={handleChange} />
           </Form.Group>
-
-          <Button variant="primary" type="submit" className="w-100">Login</Button>
+          <Button type="submit" className="w-100">Login</Button>
         </Form>
       </Card>
     </Container>

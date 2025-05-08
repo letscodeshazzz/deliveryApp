@@ -66,7 +66,7 @@ const Home = () => {
                 size="lg" 
                 as={Link} 
                 to="/restaurants"
-                className="fw-semibold px-4 py-3 fs-5"
+                className="fw-semibold px-4 py-3 fs-5 text-danger"
               >
                 Browse Restaurants
               </Button>
