@@ -25,7 +25,7 @@ const Navbar = () => {
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             {/* Home Button */}
             <li className="nav-item">
-              <Link className="nav-link" to="/" style={{ color: "f8f9fa",  }}>
+              <Link className="nav-link" to="/" style={{ color: "#f8f9fa",  }}>
                 Home
               </Link>
             </li>

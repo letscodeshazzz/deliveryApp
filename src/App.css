@@ -40,3 +40,16 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Smooth hover zoom effect on restaurant images */
+.hover-zoom {
+  transition: transform 0.3s ease-in-out;
+}
+
+.restaurant-card:hover .hover-zoom {
+  transform: scale(1.05);
+}
+
+.transition {
+  transition: all 0.3s ease-in-out;
+}

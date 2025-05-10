@@ -1,11 +1,35 @@
 import React from "react";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import { Container, ListGroup, Button, Card, Row, Col } from "react-bootstrap";
+import axios from "axios";
 
 const CartPage = () => {
   const { cart, dispatch } = useCart();
+  const { user } = useAuth();
 
   const total = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+
+  const handleCheckout = async () => {
+    try {
+      if (!user || !user.email) {
+        alert("⚠️ Please log in to place an order.");
+        return;
+      }
+
+      await axios.post("http://localhost:5000/api/orders", {
+        userEmail: user.email,
+        items: cart,
+        total,
+      });
+
+      dispatch({ type: "CLEAR_CART" });
+      alert("✅ Order placed successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("❌ Failed to place order.");
+    }
+  };
 
   return (
     <Container className="mt-5">
@@ -21,7 +45,15 @@ const CartPage = () => {
               </ListGroup.Item>
             ) : (
               cart.map((item) => (
-                <ListGroup.Item key={item.id} className="d-flex justify-content-between align-items-center p-3" style={{ borderRadius: '8px', marginBottom: '10px', backgroundColor: '#F9F9F9' }}>
+                <ListGroup.Item
+                  key={item.id}
+                  className="d-flex justify-content-between align-items-center p-3"
+                  style={{
+                    borderRadius: '8px',
+                    marginBottom: '10px',
+                    backgroundColor: '#F9F9F9'
+                  }}
+                >
                   <Row className="w-100">
                     <Col xs={8} className="d-flex flex-column">
                       <strong>{item.name}</strong>
@@ -49,7 +81,12 @@ const CartPage = () => {
           {cart.length > 0 && (
             <div className="mt-4 d-flex justify-content-between align-items-center">
               <h4>Total: <span style={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#D32F2F' }}>₹{total}</span></h4>
-              <Button variant="danger" className="px-4 py-2" style={{ borderRadius: '50px' }}>
+              <Button
+                variant="danger"
+                className="px-4 py-2"
+                style={{ borderRadius: '50px' }}
+                onClick={handleCheckout}
+              >
                 Checkout
               </Button>
             </div>
@@ -61,6 +98,3 @@ const CartPage = () => {
 };
 
 export default CartPage;
-
-
-

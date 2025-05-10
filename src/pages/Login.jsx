@@ -20,9 +20,9 @@ const Login = () => {
       setError("All fields are required");
     } else {
       setError("");
-      login();                            // ✅ update login state
+      login();                            
       alert("Login successful!");
-      navigate("/");           // ✅ redirect
+      navigate("/");           
     }
   };
 
@@ -34,11 +34,11 @@ const Login = () => {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" name="email" onChange={handleChange} />
+            <Form.Control type="email" name="email" placeholder="Enter Your Email" onChange={handleChange} />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" name="password" onChange={handleChange} />
+            <Form.Control type="password" name="password" placeholder="Enter Your Password" onChange={handleChange} />
           </Form.Group>
           <Button type="submit" className="w-100">Login</Button>
         </Form>

@@ -27,15 +27,15 @@ const Signup = () => {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Full Name</Form.Label>
-            <Form.Control type="text" name="name" onChange={handleChange} />
+            <Form.Control type="text" placeholder="Enter Your Name" name="name" onChange={handleChange} />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" name="email" onChange={handleChange} />
+            <Form.Control type="email" name="email" placeholder="Enter Your Email" onChange={handleChange} />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" name="password" onChange={handleChange} />
+            <Form.Control type="password"  placeholder="Enter Your Passowrd"name="password" onChange={handleChange} />
           </Form.Group>
           <Button type="submit" className="w-100">Signup</Button>
         </Form>
