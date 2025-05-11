@@ -5,50 +5,58 @@ import axios from "axios";
 import { useCart } from "../context/CartContext";
 
 const RestaurantDetails = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Get restaurant ID from URL
   const [menu, setMenu] = useState([]);
   const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchMenu = async () => {
       try {
+        console.log(`📡 Fetching menu for restaurant ID: ${id}`);
         const res = await axios.get(`http://localhost:5000/api/restaurants/${id}/menu`);
-        setMenu(res.data);
+
+        // If backend response wraps menu inside { menu: [...] }
+        const menuData = res.data.menu || res.data;
+
+        console.log("✅ Menu fetched successfully:", menuData);
+        setMenu(menuData);
       } catch (err) {
-        console.error("Failed to fetch menu:", err);
+        console.error("❌ Failed to fetch menu:", err.response?.data || err.message);
       }
     };
+
     fetchMenu();
   }, [id]);
 
   return (
     <Container className="mt-5">
       <h2 className="mb-4">Menu</h2>
-      {menu.map((item) => (
-        <Card key={item._id} className="mb-3">
-          <Card.Body className="d-flex justify-content-between align-items-center">
-            <div>
-              <Card.Title>{item.name}</Card.Title>
-              <Card.Text>₹{item.price}</Card.Text>
-            </div>
-            <Button variant="success" onClick={() => addToCart(item)}>Add to Cart</Button>
-          </Card.Body>
-        </Card>
-      ))}
+
+      {menu.length === 0 ? (
+        <p>No menu available for this restaurant.</p>
+      ) : (
+        menu.map((item) => (
+          <Card key={item._id} className="mb-3">
+            <Card.Body className="d-flex justify-content-between align-items-center">
+              <div>
+                <Card.Title>{item.name}</Card.Title>
+                <Card.Text>₹{item.price}</Card.Text>
+              </div>
+              <Button
+                variant="success"
+                onClick={() => addToCart({ ...item, id: item._id })}
+              >
+                Add to Cart
+              </Button>
+            </Card.Body>
+          </Card>
+        ))
+      )}
     </Container>
   );
 };
 
 export default RestaurantDetails;
-
-
-
-
-
-
-
-
-
 
 
 

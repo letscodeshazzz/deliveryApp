@@ -14,17 +14,17 @@ const Home = () => {
   const restaurants = [
     { 
       id: 1, 
-      name: "Moti Mahal", 
-      description: "Award-winning Veg and authentic cuisine", 
+      name: "The Mughal's Dastarkhwan", 
+      description: "The Taste of Mughla's and authentic cuisine", 
       rating: 4.8,
-      image: "/images/Moti.jpg"
+      image: "/images/dastarkhwan.jpg"
     },
     { 
       id: 2, 
       name: "Home Sweet Home", 
       description: "Pizza burgers with premium ingredients", 
       rating: 4.6,
-      image: "/images/Homesweet.jpg"
+      image: "/images/home1.jpg"
     },
     {
       id: 3,
