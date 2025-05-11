@@ -15,7 +15,7 @@ const Home = () => {
     { 
       id: 1, 
       name: "The Mughal's Dastarkhwan", 
-      description: "The Taste of Mughla's and authentic cuisine", 
+      description: "The Taste of Mughal's and authentic cuisine", 
       rating: 4.8,
       image: "/images/dastarkhwan.jpg"
     },
