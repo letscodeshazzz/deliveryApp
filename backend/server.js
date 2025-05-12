@@ -10,7 +10,15 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: [
+    'http://152.58.156.220:3000',  // Mobile public IP address with port 3000
+    'http://localhost:3000',        // Local development (frontend)
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type'],
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Restaurant Routes
