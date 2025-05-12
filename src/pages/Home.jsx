@@ -29,7 +29,7 @@ const Home = () => {
     {
       id: 3,
       name: "Tunday Kebab",
-      description: "The Nawabi Taste of Lucknow –  helwa Shaahi Zaika", 
+      description: "The Nawabi Taste of Lucknow – Shaahi Zaika", 
       rating: 4.7,
       image: "/images/tunday.jpg"
     }
