@@ -10,6 +10,7 @@ import Restaurants from "./pages/Restaurants";
 import RestaurantDetails from "./pages/RestaurantDetails";
 import Cart from "./pages/CartPage";
 import Orders from "./pages/Orders";
+// import MenuItem from "../backend/models/MenuItem";
 
 
 function App() {

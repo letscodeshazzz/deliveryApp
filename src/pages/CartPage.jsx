@@ -4,10 +4,9 @@ import { useAuth } from "../context/AuthContext";
 import { Container, ListGroup, Button, Card, Row, Col } from "react-bootstrap";
 import axios from "axios";
 
-
 const CartPage = () => {
   const { cart, dispatch } = useCart();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, email } = useAuth();
 
   const total = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
 
@@ -18,9 +17,14 @@ const CartPage = () => {
     }
 
     try {
-      await axios.post("/api/orders", { items: cart }); 
-      alert(" Order placed successfully!");
-      dispatch({ type: "CLEAR_CART" }); 
+      await axios.post("/api/orders", {
+        userEmail: email,
+        items: cart,
+        totalAmount: total,
+        restaurantName: cart[0]?.restaurantName || "Unknown",
+      });
+      alert("Order placed successfully!");
+      dispatch({ type: "CLEAR_CART" });
     } catch (err) {
       console.error("Checkout failed:", err);
       alert("Something went wrong. Try again.");
@@ -78,7 +82,12 @@ const CartPage = () => {
                   ₹{total}
                 </span>
               </h4>
-              <Button variant="danger" className="px-4 py-2" style={{ borderRadius: "50px" }} onClick={handleCheckout}>
+              <Button
+                variant="danger"
+                className="px-4 py-2"
+                style={{ borderRadius: "50px" }}
+                onClick={handleCheckout}
+              >
                 Checkout
               </Button>
             </div>

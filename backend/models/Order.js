@@ -7,9 +7,15 @@ const orderSchema = new mongoose.Schema({
       name: String,
       price: Number,
       qty: Number,
+      restaurantName: String // ✅ optional, if you want per item
     },
   ],
-  total: Number,
+  totalAmount: Number,
+  restaurantName: String, // ✅ this is what you want
+  status: {
+    type: String,
+    default: "Pending",
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -17,3 +23,4 @@ const orderSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("Order", orderSchema);
+

@@ -89,6 +89,8 @@ export default RestaurantDetails;
 
 
 
+
+
 //   1: [
 //     { id: 101, name: "Paneer Butter Masala", price: 250 },
 //     { id: 102, name: "Butter Naan", price: 100 },
