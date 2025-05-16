@@ -1,3 +1,4 @@
+// routes/restaurant.js
 import express from "express";
 import Restaurant from "../models/Restaurant.js";
 import MenuItem from "../models/MenuItem.js";
@@ -14,14 +15,15 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ✅ Get menu items for a restaurant
+// ✅ Get menu for specific restaurant
 router.get("/:id/menu", async (req, res) => {
   try {
     const menu = await MenuItem.find({ restaurantId: req.params.id });
-    res.json(menu);
+    res.json(menu); // Should return an array
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
 export default router;
+

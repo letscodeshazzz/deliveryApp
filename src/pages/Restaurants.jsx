@@ -4,33 +4,34 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Restaurants = () => {
-  const [restaurants, setRestaurants] = useState([]);  // Ensure this is an empty array by default
+  const [restaurants, setRestaurants] = useState([]);  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const res = await axios.get("/api/restaurants");  // Fetch data from backend
-        if (Array.isArray(res.data)) {  // Check if the response data is an array
+        const res = await axios.get("/api/restaurants");  
+        if (Array.isArray(res.data)) {
           setRestaurants(res.data);
         } else {
           throw new Error("Invalid response format");
         }
         setLoading(false);
       } catch (err) {
-        setError("Failed to fetch restaurants");
+        setError("Currently No Restaurants to Explore");
         setLoading(false);
       }
     };
+
     fetchRestaurants();
   }, []);
 
   if (loading) {
     return (
-      <Container className="mt-5">
+      <Container className="mt-5 text-center">
         <Spinner animation="border" variant="primary" />
-        <h4>Loading Restaurants...</h4>
+        <h4 className="mt-2">Loading Restaurants...</h4>
       </Container>
     );
   }
@@ -47,23 +48,23 @@ const Restaurants = () => {
     <Container className="mt-5">
       <h2 className="mb-4">Explore Restaurants</h2>
       <Row>
-        {Array.isArray(restaurants) && restaurants.length > 0 ? (
+        {restaurants.length > 0 ? (
           restaurants.map((res) => (
             <Col md={6} lg={4} key={res._id} className="mb-4">
               <Card>
-                <Card.Img variant="top" src={res.image} />
+            
                 <Card.Body>
                   <Card.Title>{res.name}</Card.Title>
                   <Card.Text>{res.cuisine}</Card.Text>
                   <Link to={`/restaurant/${res._id}`}>
-                    <Button variant="primary">View Details</Button>
+                    <Button variant="danger">View Details</Button>
                   </Link>
                 </Card.Body>
               </Card>
             </Col>
           ))
         ) : (
-          <p>No restaurants found.</p>  // Handle case when the restaurants array is empty
+          <p>No restaurants found.</p>
         )}
       </Row>
     </Container>
@@ -71,6 +72,3 @@ const Restaurants = () => {
 };
 
 export default Restaurants;
-
-
-

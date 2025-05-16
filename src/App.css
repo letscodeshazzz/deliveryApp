@@ -41,7 +41,7 @@
   color: #888;
 }
 
-/* Smooth hover zoom effect on restaurant images */
+
 .hover-zoom {
   transition: transform 0.3s ease-in-out;
 }

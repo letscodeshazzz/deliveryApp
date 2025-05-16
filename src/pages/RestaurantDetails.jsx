@@ -5,23 +5,23 @@ import axios from "axios";
 import { useCart } from "../context/CartContext";
 
 const RestaurantDetails = () => {
-  const { id } = useParams(); // Get restaurant ID from URL
+  const { id } = useParams(); // 
   const [menu, setMenu] = useState([]);
   const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        console.log(`📡 Fetching menu for restaurant ID: ${id}`);
+        console.log(` Fetching menu for restaurant ID: ${id}`);
         const res = await axios.get(`http://localhost:5000/api/restaurants/${id}/menu`);
 
-        // If backend response wraps menu inside { menu: [...] }
+        
         const menuData = res.data.menu || res.data;
 
-        console.log("✅ Menu fetched successfully:", menuData);
+        console.log(" Menu fetched successfully:", menuData);
         setMenu(menuData);
       } catch (err) {
-        console.error("❌ Failed to fetch menu:", err.response?.data || err.message);
+        console.error(" Failed to fetch menu:", err.response?.data || err.message);
       }
     };
 
@@ -43,7 +43,7 @@ const RestaurantDetails = () => {
                 <Card.Text>₹{item.price}</Card.Text>
               </div>
               <Button
-                variant="success"
+                variant="danger"
                 onClick={() => addToCart({ ...item, id: item._id })}
               >
                 Add to Cart

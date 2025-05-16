@@ -69,7 +69,6 @@ const Home = () => {
         </Container>
       </div>
 
-      {/* Carousel for Categories */}
       <div className="bg-light py-5 w-100">
         <Container>
           <h2 className="mb-4 fw-bold">Popular Categories</h2>
@@ -95,7 +94,7 @@ const Home = () => {
 
       <Container className="py-5">
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h2 className="mb-0 fw-bold">Top Restaurants</h2>
+          <h2 className="mb-0 fw-bold">Top Restaurants of Lucknow</h2>
           <Button variant="outline-danger" as={Link} to="/restaurants">
             View All
           </Button>

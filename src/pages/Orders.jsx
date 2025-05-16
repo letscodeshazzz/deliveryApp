@@ -1,43 +1,65 @@
 import React, { useEffect, useState } from "react";
-import { Container, Card } from "react-bootstrap";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
+import { Container, Card, Spinner, Alert } from "react-bootstrap";
 
 const Orders = () => {
-  const { user } = useAuth();
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const email = localStorage.getItem("email");
 
   useEffect(() => {
     const fetchOrders = async () => {
-      if (!user || !user.email) return;
       try {
-        const res = await axios.get(`http://localhost:5000/api/orders/${user.email}`);
+        const res = await axios.get(`/api/orders/${email}`);
         setOrders(res.data);
+        setLoading(false);
       } catch (err) {
-        console.error("Failed to fetch orders:", err);
+        setError("Failed to fetch orders");
+        setLoading(false);
       }
     };
 
     fetchOrders();
-  }, [user]);
+  }, [email]);
+
+  if (loading) {
+    return (
+      <Container className="mt-5 text-center">
+        <Spinner animation="border" variant="primary" />
+        <p>Loading orders...</p>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="mt-5">
+        <Alert variant="danger">{error}</Alert>
+      </Container>
+    );
+  }
 
   return (
     <Container className="mt-5">
-      <h2 className="mb-4 text-center">Your Orders</h2>
+      <h2 className="mb-4">Your Orders</h2>
       {orders.length === 0 ? (
-        <p className="text-center">You have no orders yet.</p>
+        <Alert variant="info">You have no orders yet.</Alert>
       ) : (
-        orders.map((order, index) => (
-          <Card key={index} className="mb-3 shadow-sm">
+        orders.map((order) => (
+          <Card key={order._id} className="mb-3 shadow-sm">
             <Card.Body>
-              <h5 className="mb-3 text-danger">Order placed on {new Date(order.createdAt).toLocaleString()}</h5>
-              {order.items.map((item, idx) => (
-                <p key={idx} style={{ marginBottom: "5px" }}>
-                  {item.name} × {item.qty} = ₹{item.price * item.qty}
-                </p>
-              ))}
-              <hr />
-              <strong>Total: ₹{order.total}</strong>
+              <h5>Order ID: {order._id}</h5>
+              <p><strong>Restaurant:</strong> {order.restaurantName || "N/A"}</p>
+              <p><strong>Items:</strong></p>
+              <ul>
+                {order.items.map((item, index) => (
+                  <li key={index}>{item.name} × {item.qty} — ₹{item.price}</li>
+                ))}
+              </ul>
+              <p><strong>Total:</strong> ₹{order.totalAmount}</p>
+              <p><strong>Status:</strong> {order.status || "Pending"}</p>
             </Card.Body>
           </Card>
         ))

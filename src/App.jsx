@@ -11,6 +11,7 @@ import RestaurantDetails from "./pages/RestaurantDetails";
 import Cart from "./pages/CartPage";
 import Orders from "./pages/Orders";
 
+
 function App() {
   return (
     <>
