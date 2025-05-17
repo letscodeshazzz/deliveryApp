@@ -6,7 +6,8 @@ const Navbar = () => {
   const { isLoggedIn, logout } = useAuth();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark" style={{ background: "rgb(250, 35, 35)" }}>
+    <nav className="navbar navbar-expand-lg navbar-dark" 
+    style={{ background: "rgb(250, 35, 35)" }}>
       <div className="container">
         <Link className="navbar-brand fw-bold text-warning" to="/">Foodjet</Link>
         <button
@@ -23,7 +24,7 @@ const Navbar = () => {
 
         <div className="collapse navbar-collapse" id="mainNavbar">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            {/* Home Button */}
+ 
             <li className="nav-item">
               <Link className="nav-link" to="/" style={{ color: "#f8f9fa",  }}>
                 Home

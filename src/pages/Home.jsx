@@ -6,30 +6,30 @@ import { Container, Row, Col, Button, Card, Carousel } from "react-bootstrap";
 const Home = () => {
   const categories = [
     { name: "Pizza", image: "https://images.pexels.com/photos/1146760/pexels-photo-1146760.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
-    { name: "Butter Chicken", image:"https://images.pexels.com/photos/7625056/pexels-photo-7625056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
+    { name: "Butter Chicken", image: "https://images.pexels.com/photos/7625056/pexels-photo-7625056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
     { name: "Burgers", image: "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
-  
+
   ];
 
   const restaurants = [
-    { 
-      id: 1, 
-      name: "The Mughal's Dastarkhwan", 
-      description: "The Taste of Mughal's and authentic cuisine", 
+    {
+      id: 1,
+      name: "The Mughal's Dastarkhwan",
+      description: "The Taste of Mughal's and authentic cuisine",
       rating: 4.8,
       image: "/images/dastarkhwan.jpg"
     },
-    { 
-      id: 2, 
-      name: "Home Sweet Home", 
-      description: "Pizza burgers with premium ingredients", 
+    {
+      id: 2,
+      name: "Home Sweet Home",
+      description: "Pizza burgers with premium ingredients",
       rating: 4.6,
       image: "/images/home1.jpg"
     },
     {
       id: 3,
       name: "Tunday Kebab",
-      description: "The Nawabi Taste of Lucknow – Shaahi Zaika", 
+      description: "The Nawabi Taste of Lucknow – Shaahi Zaika",
       rating: 4.7,
       image: "/images/tunday.jpg"
     }
@@ -55,10 +55,10 @@ const Home = () => {
               <p className="lead mb-4 text-white fs-4">
                 Explore restaurants, food items, and offers near you!
               </p>
-              <Button 
-                variant="light" 
-                size="lg" 
-                as={Link} 
+              <Button
+                variant="light"
+                size="lg"
+                as={Link}
                 to="/restaurants"
                 className="fw-semibold px-4 py-3 fs-5 text-danger"
               >
@@ -76,11 +76,11 @@ const Home = () => {
             {categories.map((category, idx) => (
               <Carousel.Item key={idx}>
                 <div className="position-relative">
-                  <img 
+                  <img
                     className="d-block w-100"
-                    src={category.image} 
-                    alt={category.name} 
-                    style={{ height: "400px", objectFit: "cover" }} 
+                    src={category.image}
+                    alt={category.name}
+                    style={{ height: "400px", objectFit: "cover" }}
                   />
                   <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-25 d-flex align-items-center justify-content-center">
                     <h5 className="text-white fw-bold mb-0">{category.name}</h5>
@@ -103,11 +103,11 @@ const Home = () => {
         <Row className="g-4">
           {restaurants.map((restaurant) => (
             <Col xs={12} md={6} lg={4} key={restaurant.id}>
-              <Card className="h-100 shadow border-0">
+              <Card className="h-100 shadow border-0"  style={{borderRadius: "20px"}}>
                 <Card.Img
                   variant="top"
                   src={restaurant.image}
-                  style={{ height: "200px", objectFit: "cover" }}
+                  style={{ height: "400px", objectFit: "cover" }}
                 />
                 <Card.Body>
                   <div className="d-flex justify-content-between align-items-start mb-2">
@@ -118,19 +118,13 @@ const Home = () => {
                   </div>
                   <Card.Text>{restaurant.description}</Card.Text>
                   <div className="d-flex gap-2 mt-3">
-                    <Button 
+                    <Button
                       variant="danger"
-                      as={Link} 
-                      to={`/restaurant/${restaurant.id}`}
+                      as={Link}
+                      to={`/about-restaurant/${restaurant.id}`}  
                       className="flex-grow-1"
                     >
-                      View Menu
-                    </Button>
-                    <Button 
-                      variant="outline-secondary"
-                      className="btn-icon"
-                    >
-                      <i className="bi bi-heart"></i>
+                      Read About
                     </Button>
                   </div>
                 </Card.Body>

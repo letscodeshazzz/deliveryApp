@@ -10,19 +10,21 @@ import Restaurants from "./pages/Restaurants";
 import RestaurantDetails from "./pages/RestaurantDetails";
 import Cart from "./pages/CartPage";
 import Orders from "./pages/Orders";
-// import MenuItem from "../backend/models/MenuItem";
+import RestaurantAbout from "./pages/RestaurantAbout";
+
 
 
 function App() {
   return (
     <>
       <Navbar />
-      <div style={{ paddingTop: "80px", minHeight: "80vh" }}>
+      <div style={{ paddingTop: "80px", minHeight: "100vh" }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/restaurants" element={<Restaurants />} />
+          <Route path="/about-restaurant/:id" element={<RestaurantAbout />} />
           <Route path="/restaurant/:id" element={<RestaurantDetails />} />
           <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
           <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
