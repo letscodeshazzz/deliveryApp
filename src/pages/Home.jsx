@@ -96,23 +96,15 @@ const Home = () => {
               </p>
               <div className="d-flex gap-3 justify-content-center">
                 <Button
-                  variant="danger"
+                  variant="outline-warning"
                   size="lg"
                   as={Link}
                   to="/restaurants"
                   className="fw-bold px-4 py-3 fs-5 text-white"
                 >
-                  Order Now
+                  Browse Restaurants
                 </Button>
-                <Button
-                  variant="outline-light"
-                  size="lg"
-                  as={Link}
-                  to="/offers"
-                  className="fw-bold px-4 py-3 fs-5"
-                >
-                  Special Offers
-                </Button>
+             
               </div>
             </Col>
           </Row>
@@ -207,9 +199,9 @@ const Home = () => {
       </div>
 
       {/* City Restaurants Sections */}
-      <Section title="Top Restaurants in Lucknow" data={restaurantsLucknow} bgColor="bg-light" />
-      <Section title="Top Restaurants in Delhi" data={restaurantsDelhi} bgColor="bg-white" />
-      <Section title="Top Restaurants in Hyderabad" data={restaurantsHyderabad} bgColor="bg-light" />
+      <Section title="Top Restaurants in Lucknow " data={restaurantsLucknow} bgColor="bg-light text-danger" />
+      <Section title="Top Restaurants in Delhi" data={restaurantsDelhi} bgColor="bg-light text-danger" />
+      <Section title="Top Restaurants in Hyderabad" data={restaurantsHyderabad} bgColor="bg-light text-danger" />
 
       {/* CTA Section */}
       <div className="py-5 text-white" style={{ backgroundColor: "rgb(250, 35, 35)" }}>
