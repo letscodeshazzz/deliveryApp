@@ -89,7 +89,7 @@ const Home = () => {
           <Row className="justify-content-center text-center">
             <Col lg={8}>
               <h1 className="display-3 fw-bold mb-4 text-white">
-                Craving something delicious?
+                Craving something <span className="text-warning">delicious?</span>
               </h1>
               <p className="lead mb-4 text-white fs-3">
                 Order from your favorite restaurants with <span className="text-warning fw-bold">FoodJet</span>
@@ -142,7 +142,7 @@ const Home = () => {
 
       <div className="py-5 bg-light">
         <Container>
-          <h2 className="text-center mb-5 fw-bold display-5">Explore Categories</h2>
+          <h2 className="text-center mb-5 fw-bold display-5 text-warning">Explore Categories</h2>
           <Row className="g-4">
             {categories.map((cat, idx) => (
               <Col key={idx} md={6} lg={4}>
@@ -159,7 +159,7 @@ const Home = () => {
                     </div>
                   </div>
                   <Card.Body className="text-center">
-                    <Button variant="danger" as={Link} to="/restaurants" className="w-100">
+                    <Button variant="outline-warning" as={Link} to="/restaurants" className="w-100">
                       Order Now
                     </Button>
                   </Card.Body>
@@ -172,7 +172,7 @@ const Home = () => {
 
       <div className="py-5 bg-white">
         <Container>
-          <h2 className="text-center mb-5 fw-bold display-5">Special Offers</h2>
+          <h2 className="text-center mb-5 fw-bold display-5 text-warning">Special Offers</h2>
           <Carousel indicators={false} className="rounded-4 overflow-hidden shadow">
             {offers.map((offer) => (
               <Carousel.Item key={offer.id} style={{ height: '400px' }}>
@@ -262,8 +262,8 @@ const Section = ({ title, data, bgColor }) => (
                   <span className="text-muted">
                     <i className="bi bi-clock me-1"></i> {restaurant.deliveryTime}
                   </span>
-                  <Button variant="danger" size="sm" as={Link} to={`/restaurant/${restaurant.id}`}>
-                    Order Now
+                  <Button variant="outline-danger" size="sm" as={Link} to={`/restaurant/${restaurant.id}`}>
+                    View Menu
                   </Button>
                 </div>
               </Card.Body>

@@ -8,7 +8,7 @@ const Footer = () => {
           position: "relative",
         }}
       >
-        <p className="mb-0">© 2025 FoodJet. All rights reserved.</p>
+        <p className="  mb-0 text-white-300">© 2025 FoodJet. All rights reserved.</p>
       </footer>
     );
   };
