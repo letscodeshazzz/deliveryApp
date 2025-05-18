@@ -140,9 +140,9 @@ const Home = () => {
         </Container>
       </div>
 
-      <div className="py-5 bg-light">
+      <div className="py-5 bg-warning">
         <Container>
-          <h2 className="text-center mb-5 fw-bold display-5 text-warning">Explore Categories</h2>
+          <h2 className="text-center mb-5 fw-bold display-5 text-black">Explore Categories</h2>
           <Row className="g-4">
             {categories.map((cat, idx) => (
               <Col key={idx} md={6} lg={4}>
@@ -158,7 +158,7 @@ const Home = () => {
                       <h3 className="fw-bold mb-0">{cat.name}</h3>
                     </div>
                   </div>
-                  <Card.Body className="text-center">
+                  <Card.Body className="text-center bg-black">
                     <Button variant="outline-warning" as={Link} to="/restaurants" className="w-100">
                       Order Now
                     </Button>
@@ -170,9 +170,9 @@ const Home = () => {
         </Container>
       </div>
 
-      <div className="py-5 bg-white">
+      <div className="py-5 bg-warning">
         <Container>
-          <h2 className="text-center mb-5 fw-bold display-5 text-warning">Special Offers</h2>
+          <h2 className="text-center mb-5 fw-bold display-5 text-black">Special Offers</h2>
           <Carousel indicators={false} className="rounded-4 overflow-hidden shadow">
             {offers.map((offer) => (
               <Carousel.Item key={offer.id} style={{ height: '400px' }}>
@@ -199,9 +199,9 @@ const Home = () => {
       </div>
 
       {/* City Restaurants Sections */}
-      <Section title="Top Restaurants in Lucknow " data={restaurantsLucknow} bgColor="bg-light text-danger" />
-      <Section title="Top Restaurants in Delhi" data={restaurantsDelhi} bgColor="bg-light text-danger" />
-      <Section title="Top Restaurants in Hyderabad" data={restaurantsHyderabad} bgColor="bg-light text-danger" />
+      <Section title="Top Restaurants in Lucknow " data={restaurantsLucknow} bgColor="bg-white text-danger" />
+      <Section title="Top Restaurants in Delhi" data={restaurantsDelhi} bgColor="bg-white text-danger" />
+      <Section title="Top Restaurants in Hyderabad" data={restaurantsHyderabad} bgColor="bg-white text-danger" />
 
       {/* CTA Section */}
       <div className="py-5 text-white" style={{ backgroundColor: "rgb(250, 35, 35)" }}>
