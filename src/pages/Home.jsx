@@ -5,28 +5,28 @@ import { FaStar, FaUtensils, FaShippingFast, FaLeaf } from "react-icons/fa";
 const categories = [
   {
     name: "Cakes",
-    image: "https://images.pexels.com/photos/1070850/pexels-photo-1070850.jpeg?auto=compress&cs=tinysrgb&w=600", 
+    image: "https://images.pexels.com/photos/1070850/pexels-photo-1070850.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     name: "Drinks",
-    image: "https://images.pexels.com/photos/338713/pexels-photo-338713.jpeg?auto=compress&cs=tinysrgb&w=600", 
+    image: "https://images.pexels.com/photos/338713/pexels-photo-338713.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     name: "Desserts",
-    image: "https://images.pexels.com/photos/2067396/pexels-photo-2067396.jpeg?auto=compress&cs=tinysrgb&w=600", 
+    image: "https://images.pexels.com/photos/2067396/pexels-photo-2067396.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     name: "Biryani",
-    image: "https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=600", 
+    image: "https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     name: "Pulao",
-    image: "https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=600", 
+    image: "https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     name: "Fried Chicken",
-    image: "https://images.pexels.com/photos/6210876/pexels-photo-6210876.jpeg?auto=compress&cs=tinysrgb&w=600", 
-  } ]
+    image: "https://images.pexels.com/photos/6210876/pexels-photo-6210876.jpeg?auto=compress&cs=tinysrgb&w=600",
+  }]
 
 const restaurantsLucknow = [
   { id: 1, name: "The Mughal's Dastarkhwan", description: "Authentic Mughlai Cuisine", rating: 4.8, image: './images/dastarkhwan.jpg', deliveryTime: "30-45 min" },
@@ -104,14 +104,14 @@ const Home = () => {
                 >
                   Browse Restaurants
                 </Button>
-             
+
               </div>
             </Col>
           </Row>
         </Container>
       </div>
 
-  
+
       <div className="py-5 bg-white">
         <Container>
           <Row className="g-4 text-center">
@@ -214,12 +214,20 @@ const Home = () => {
                 <Button variant="light" size="lg" className="text-dark fw-bold">
                   <i className="bi bi-apple me-2"></i> App Store
                 </Button>
-                <Button variant="dark" size="lg" className="fw-bold">
-                  <i className="bi bi-google-play me-2"></i> Google Play
+                <Button
+                  variant="dark"
+                  size="lg"
+                  className="fw-bold"
+                  href="https://play.google.com/store/apps/details?id=com.foodjet.user&pli=1"
+                  target="_blank"
+                >
+                  <i className="bi bi-google-play me-2"></i>
+                  Google Play
                 </Button>
+
               </div>
             </Col>
-    
+
           </Row>
         </Container>
       </div>
