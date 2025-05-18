@@ -5,28 +5,29 @@ import axios from "axios";
 import { useCart } from "../context/CartContext";
 
 const RestaurantDetails = () => {
-  const { id } = useParams(); // 
+  const { id } = useParams();
   const [menu, setMenu] = useState([]);
+  const [addedItems, setAddedItems] = useState([]);
   const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        console.log(` Fetching menu for restaurant ID: ${id}`);
         const res = await axios.get(`http://localhost:5000/api/restaurants/${id}/menu`);
-
-        
         const menuData = res.data.menu || res.data;
-
-        console.log(" Menu fetched successfully:", menuData);
         setMenu(menuData);
       } catch (err) {
-        console.error(" Failed to fetch menu:", err.response?.data || err.message);
+        console.error("Failed to fetch menu:", err);
       }
     };
 
     fetchMenu();
   }, [id]);
+
+  const handleAddToCart = (item) => {
+    addToCart({ ...item, id: item._id });
+    setAddedItems((prev) => [...prev, item._id]);
+  };
 
   return (
     <Container className="mt-5">
@@ -43,10 +44,11 @@ const RestaurantDetails = () => {
                 <Card.Text>₹{item.price}</Card.Text>
               </div>
               <Button
-                variant="danger"
-                onClick={() => addToCart({ ...item, id: item._id })}
+                variant={addedItems.includes(item._id) ? "secondary" : "danger"}
+                disabled={addedItems.includes(item._id)}
+                onClick={() => handleAddToCart(item)}
               >
-                Add to Cart
+                {addedItems.includes(item._id) ? "Added to Cart" : "Add to Cart"}
               </Button>
             </Card.Body>
           </Card>
@@ -57,10 +59,6 @@ const RestaurantDetails = () => {
 };
 
 export default RestaurantDetails;
-
-
-
-
 
 
 

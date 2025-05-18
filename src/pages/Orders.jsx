@@ -6,11 +6,10 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [paidOrders, setPaidOrders] = useState({});  // Paid orders state
+  const [paidOrders, setPaidOrders] = useState({});  
 
   const email = localStorage.getItem("email");
 
-  // Load paidOrders from localStorage on mount
   useEffect(() => {
     const savedPaidOrders = localStorage.getItem("paidOrders");
     if (savedPaidOrders) {
@@ -36,7 +35,7 @@ const Orders = () => {
 
     setPaidOrders(prev => {
       const updated = { ...prev, [orderId]: true };
-      localStorage.setItem("paidOrders", JSON.stringify(updated));  // Save in localStorage
+      localStorage.setItem("paidOrders", JSON.stringify(updated));  
       return updated;
     });
   };

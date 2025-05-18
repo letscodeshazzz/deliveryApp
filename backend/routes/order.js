@@ -20,15 +20,7 @@ router.get("/:email", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-// Delete order by ID
-router.delete("/:id", async (req, res) => {
-  try {
-    await Order.findByIdAndDelete(req.params.id);
-    res.json({ message: "Order deleted successfully" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+
 
 
 export default router;

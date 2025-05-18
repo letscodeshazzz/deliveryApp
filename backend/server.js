@@ -9,9 +9,9 @@ import orderRoutes from "./routes/order.js";
 dotenv.config();
 const app = express();
 
-// ✅ CORS FIX
+
 app.use(cors({
-  origin: "http://localhost:5173",  // React frontend dev server
+  origin: "http://localhost:5173", 
   credentials: true
 }));
 
@@ -31,7 +31,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => {
   console.log(" MongoDB connected");
   app.listen(process.env.PORT || 5000, () => {
-    console.log(`🚀 Server running on port ${process.env.PORT || 5000}`);
+    console.log(` Server running on port ${process.env.PORT || 5000}`);
   });
 })
 .catch(err => console.error(" MongoDB connection error:", err));

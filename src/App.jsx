@@ -10,7 +10,10 @@ import Restaurants from "./pages/Restaurants";
 import RestaurantDetails from "./pages/RestaurantDetails";
 import Cart from "./pages/CartPage";
 import Orders from "./pages/Orders";
-import RestaurantAbout from "./pages/RestaurantAbout";
+import RestaurantAbout from "./pages/RestaurantAbout"; // adjust path
+
+
+
 
 
 
@@ -28,6 +31,7 @@ function App() {
           <Route path="/restaurant/:id" element={<RestaurantDetails />} />
           <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
           <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+          <Route path="/restaurant-about/:id" element={<RestaurantAbout />} />
         </Routes>
       </div>
       <Footer />

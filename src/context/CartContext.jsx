@@ -13,10 +13,25 @@ const cartReducer = (state, action) => {
       } else {
         return [...state, { ...action.payload, qty: 1 }];
       }
+
     case "REMOVE_FROM_CART":
       return state.filter((item) => item.id !== action.payload);
+
+    case "INCREASE_QTY":
+      return state.map((item) =>
+        item.id === action.payload ? { ...item, qty: item.qty + 1 } : item
+      );
+
+    case "DECREASE_QTY":
+      return state.map((item) =>
+        item.id === action.payload && item.qty > 1
+          ? { ...item, qty: item.qty - 1 }
+          : item
+      );
+
     case "CLEAR_CART":
       return [];
+
     default:
       return state;
   }

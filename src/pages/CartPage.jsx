@@ -3,10 +3,12 @@ import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { Container, ListGroup, Button, Card, Row, Col } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
   const { cart, dispatch } = useCart();
   const { isLoggedIn, email } = useAuth();
+  const navigate = useNavigate(); // ✅ Navigation hook
 
   const total = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
 
@@ -23,11 +25,22 @@ const CartPage = () => {
         totalAmount: total,
         restaurantName: cart[0]?.restaurantName || "Unknown",
       });
-      alert("Order placed successfully!");
+
       dispatch({ type: "CLEAR_CART" });
+      navigate("/orders"); // ✅ Navigate after success
     } catch (err) {
       console.error("Checkout failed:", err);
       alert("Something went wrong. Try again.");
+    }
+  };
+
+  const handleIncreaseQty = (item) => {
+    dispatch({ type: "INCREASE_QTY", payload: item.id });
+  };
+
+  const handleDecreaseQty = (item) => {
+    if (item.qty > 1) {
+      dispatch({ type: "DECREASE_QTY", payload: item.id });
     }
   };
 
@@ -48,26 +61,48 @@ const CartPage = () => {
                 <ListGroup.Item
                   key={item.id}
                   className="d-flex justify-content-between align-items-center p-3"
-                  style={{ borderRadius: "8px", marginBottom: "10px", backgroundColor: "#F9F9F9" }}
+                  style={{
+                    borderRadius: "8px",
+                    marginBottom: "10px",
+                    backgroundColor: "#F9F9F9",
+                  }}
                 >
-                  <Row className="w-100">
-                    <Col xs={8} className="d-flex flex-column">
+                  <Row className="w-100 align-items-center">
+                    <Col xs={6} className="d-flex flex-column">
                       <strong>{item.name}</strong>
-                      <span>Qty: {item.qty}</span>
-                    </Col>
-                    <Col xs={4} className="d-flex justify-content-end align-items-center">
-                      <div className="d-flex flex-column text-right">
-                        <div>₹{item.price * item.qty}</div>
+                      <div className="mt-2 d-flex align-items-center">
                         <Button
-                          variant="outline-danger"
+                          variant="outline-secondary"
                           size="sm"
-                          className="mt-2"
-                          onClick={() => dispatch({ type: "REMOVE_FROM_CART", payload: item.id })}
-                          style={{ borderRadius: "50px", borderColor: "#D32F2F" }}
+                          onClick={() => handleDecreaseQty(item)}
+                          className="me-2"
                         >
-                          Remove
+                          −
+                        </Button>
+                        <span>{item.qty}</span>
+                        <Button
+                          variant="outline-secondary"
+                          size="sm"
+                          onClick={() => handleIncreaseQty(item)}
+                          className="ms-2"
+                        >
+                          +
                         </Button>
                       </div>
+                    </Col>
+                    <Col xs={3}>
+                      ₹{item.price * item.qty}
+                    </Col>
+                    <Col xs={3} className="text-end">
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        onClick={() =>
+                          dispatch({ type: "REMOVE_FROM_CART", payload: item.id })
+                        }
+                      >
+                        Remove
+                      </Button>
                     </Col>
                   </Row>
                 </ListGroup.Item>

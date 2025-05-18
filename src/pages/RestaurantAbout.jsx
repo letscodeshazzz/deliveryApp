@@ -1,62 +1,52 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Card } from 'react-bootstrap';
+import React from "react";
+import { useParams } from "react-router-dom";
+import { Container, Card } from "react-bootstrap";
 
 const restaurantDetails = {
   1: {
     name: "The Mughal's Dastarkhwan",
-    image: "/images/dastarkhwan.jpg",
-    description: "Authentic Mughlai food with royal taste.",
-    location: "Aminabad, Lucknow",
-    established: "1984",
-    founder: "Late Haji Mohammad Usman"
+    description: "The Mughal's Dastarkhwan is known for its rich, aromatic Mughlai cuisine. Serving Lucknow’s food lovers since 1995.",
+    location: "Hazratganj, Lucknow",
+    established: 1995,
+    special: "Mutton Biryani, Butter Chicken",
   },
   2: {
     name: "Home Sweet Home",
-    image: "/images/home1.jpg",
-    description: "Modern eatery with pizza, burgers and cozy ambience.",
-    location: "Hazratganj, Lucknow",
-    established: "2015",
-    founder: "Chef Aman Verma"
+    description: "A cozy place delivering homely meals and snacks with a modern twist. Ideal for casual dining and family outings.",
+    location: "Alambagh, Lucknow",
+    established: 2010,
+    special: "Paneer Pizza, Burgers, Fries",
   },
   3: {
     name: "Tunday Kebab",
-    image: "/images/tunday.jpg",
-    description: "World-famous Galawati kebabs since generations.",
-    location: "Chowk, Lucknow",
-    established: "1905",
-    founder: "Haji Murad Ali"
-  }
+    description: "Tunday Kababi is legendary for its melt-in-the-mouth Galawati Kebabs, prepared from a centuries-old secret recipe.",
+    location: "Aminabad, Lucknow",
+    established: 1905,
+    special: "Tunday Kebab, Mughlai Paratha",
+  },
+  // Add more as per your restaurants
 };
 
 const RestaurantAbout = () => {
   const { id } = useParams();
-  const restaurant = restaurantDetails[id];
+  const data = restaurantDetails[id];
 
-  if (!restaurant) {
+  if (!data) {
     return (
       <Container className="mt-5">
-        <h4>Restaurant not found.</h4>
+        <h3 className="text-danger">Restaurant details not found.</h3>
       </Container>
     );
   }
 
   return (
     <Container className="mt-5">
-      <Card className="shadow border-0">
-        <Card.Img 
-          variant="top" 
-          src={restaurant.image} 
-          style={{ height: "300px", objectFit: "cover" }} 
-        />
-        <Card.Body>
-          <h2 className="fw-bold text-danger">{restaurant.name}</h2>
-          <p className="text-muted">{restaurant.description}</p>
-          <hr />
-          <p><strong>Location:</strong> {restaurant.location}</p>
-          <p><strong>Founded:</strong> {restaurant.established}</p>
-          <p><strong>Founder:</strong> {restaurant.founder}</p>
-        </Card.Body>
+      <Card className="p-4 shadow">
+        <h2 className="text-danger mb-3">{data.name}</h2>
+        <p><strong>Description:</strong> {data.description}</p>
+        <p><strong>Location:</strong> {data.location}</p>
+        <p><strong>Established:</strong> {data.established}</p>
+        <p><strong>Special Dishes:</strong> {data.special}</p>
       </Card>
     </Container>
   );

@@ -7,11 +7,11 @@ const orderSchema = new mongoose.Schema({
       name: String,
       price: Number,
       qty: Number,
-      restaurantName: String // ✅ optional, if you want per item
+      restaurantName: String 
     },
   ],
   totalAmount: Number,
-  restaurantName: String, // ✅ this is what you want
+  restaurantName: String, 
   status: {
     type: String,
     default: "Pending",
