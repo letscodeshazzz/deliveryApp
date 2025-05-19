@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Container, Card, Button } from "react-bootstrap";
+import { useParams, useNavigate } from "react-router-dom";
+import { Container, Card, Button, ButtonGroup } from "react-bootstrap";
 import axios from "axios";
 import { useCart } from "../context/CartContext";
+import { FaShoppingCart, FaBolt } from "react-icons/fa";
 
 const RestaurantDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [menu, setMenu] = useState([]);
   const [addedItems, setAddedItems] = useState([]);
   const { addToCart } = useCart();
@@ -29,6 +31,11 @@ const RestaurantDetails = () => {
     setAddedItems((prev) => [...prev, item._id]);
   };
 
+  const handleOrderNow = (item) => {
+    handleAddToCart(item); // Add the item to cart first
+    navigate("/orders"); // Now correctly navigating to orders page
+  };
+
   return (
     <Container className="mt-5">
       <h2 className="mb-4">Menu</h2>
@@ -37,19 +44,36 @@ const RestaurantDetails = () => {
         <p>No menu available for this restaurant.</p>
       ) : (
         menu.map((item) => (
-          <Card key={item._id} className="mb-3">
+          <Card key={item._id} className="mb-3 shadow-sm">
             <Card.Body className="d-flex justify-content-between align-items-center">
-              <div>
-                <Card.Title>{item.name}</Card.Title>
-                <Card.Text>₹{item.price}</Card.Text>
+              <div className="flex-grow-1">
+                <Card.Title className="mb-1">{item.name}</Card.Title>
+                <Card.Text className="text-danger fw-bold mb-0">₹{item.price}</Card.Text>
+                {item.description && (
+                  <small className="text-muted">{item.description}</small>
+                )}
               </div>
-              <Button
-                variant={addedItems.includes(item._id) ? "secondary" : "danger"}
-                disabled={addedItems.includes(item._id)}
-                onClick={() => handleAddToCart(item)}
-              >
-                {addedItems.includes(item._id) ? "Added to Cart" : "Add to Cart"}
-              </Button>
+              <ButtonGroup>
+                <Button
+                  variant={addedItems.includes(item._id) ? "outline-secondary" : "outline-danger"}
+                  size="sm"
+                  disabled={addedItems.includes(item._id)}
+                  onClick={() => handleAddToCart(item)}
+                  className="d-flex align-items-center"
+                >
+                  <FaShoppingCart className="me-1" />
+                  {addedItems.includes(item._id) ? "Added" : "Add"}
+                </Button>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => handleOrderNow(item)}
+                  className="d-flex align-items-center"
+                >
+                  <FaBolt className="me-1" />
+                  Order Now
+                </Button>
+              </ButtonGroup>
             </Card.Body>
           </Card>
         ))
@@ -59,23 +83,6 @@ const RestaurantDetails = () => {
 };
 
 export default RestaurantDetails;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

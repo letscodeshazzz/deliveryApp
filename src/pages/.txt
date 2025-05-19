@@ -1,0 +1,4 @@
+orders page pe kaam krna hai quantuty wal kaam nhi krra hai pamwn fail hori hai 
+paymen section add kra hai 
+ik demo delivery dikhana hai 
+aur ecplore restauarants se iamge fetch krna hai mongodb se 

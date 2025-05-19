@@ -24,7 +24,7 @@ const restaurantDetails = {
     established: 1905,
     special: "Tunday Kebab, Mughlai Paratha",
   },
-  // Add more as per your restaurants
+ 
 };
 
 const RestaurantAbout = () => {

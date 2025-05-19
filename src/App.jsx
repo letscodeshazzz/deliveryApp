@@ -11,6 +11,7 @@ import RestaurantDetails from "./pages/RestaurantDetails";
 import Cart from "./pages/CartPage";
 import Orders from "./pages/Orders";
 import RestaurantAbout from "./pages/RestaurantAbout"; // adjust path
+import Profile from "./pages/Profile";
 
 
 
@@ -27,6 +28,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/restaurants" element={<Restaurants />} />
+    
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          
+
           <Route path="/about-restaurant/:id" element={<RestaurantAbout />} />
           <Route path="/restaurant/:id" element={<RestaurantDetails />} />
           <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />

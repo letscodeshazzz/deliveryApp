@@ -9,14 +9,57 @@ const Navbar = () => {
   // Check if current route matches nav link
   const isActive = (path) => location.pathname === path;
 
+  // Nav items configuration for cleaner code
+  const navItems = [
+    { path: "/", label: "Home" },
+    { path: "/restaurants", label: "Restaurants" },
+  ];
+
+  const protectedNavItems = [
+    { path: "/cart", label: "Cart", icon: "bi-cart3" },
+    { path: "/orders", label: "Orders", icon: "bi-receipt" },
+    { path: "/profile", label: "Profile", icon: "bi-person" },
+  ];
+
+  // Nav link component to reduce repetition
+  const NavLink = ({ path, label, icon }) => (
+    <li className="nav-item">
+      <Link 
+        className="nav-link position-relative py-2 px-3 d-flex align-items-center" 
+        to={path}
+        style={{ 
+          color: isActive(path) ? "#FFD700" : "#f8f9fa",
+          fontWeight: isActive(path) ? "600" : "400"
+        }}
+      >
+        {icon && <i className={`bi ${icon} me-1`}></i>}
+        {label}
+        {isActive(path) && (
+          <span className="position-absolute bottom-0 start-50 translate-middle-x bg-warning" 
+            style={{
+              width: "60%",
+              height: "2px",
+              borderRadius: "2px"
+            }}
+          />
+        )}
+      </Link>
+    </li>
+  );
+
+
   return (
-    <nav 
-      className="navbar navbar-expand-lg navbar-dark sticky-top" 
-      style={{ 
-        background: "rgb(250, 35, 35)",
-        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)"
-      }}
-    >
+    <nav
+  className="navbar navbar-expand-lg navbar-dark sticky-top"
+  style={{
+    position: "sticky", // Double safety
+    top: 0,
+    zIndex: 0,
+    width: "100%",
+      background: "rgb(250, 35, 35)",
+  }}
+>
+
       <div className="container">
         <Link 
           className="navbar-brand fw-bold d-flex align-items-center" 
@@ -46,97 +89,18 @@ const Navbar = () => {
 
         <div className="collapse navbar-collapse" id="mainNavbar">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-3">
-            <li className="nav-item">
-              <Link 
-                className="nav-link position-relative py-2 px-3" 
-                to="/"
-                style={{ 
-                  color: isActive("/") ? "#FFD700" : "#f8f9fa",
-                  fontWeight: isActive("/") ? "600" : "400"
-                }}
-              >
-                Home
-                {isActive("/") && (
-                  <span className="position-absolute bottom-0 start-50 translate-middle-x bg-warning" 
-                    style={{
-                      width: "60%",
-                      height: "2px",
-                      borderRadius: "2px"
-                    }}
-                  ></span>
-                )}
-              </Link>
-            </li>
-            
-            <li className="nav-item">
-              <Link 
-                className="nav-link position-relative py-2 px-3" 
-                to="/restaurants"
-                style={{ 
-                  color: isActive("/restaurants") ? "#FFD700" : "#f8f9fa",
-                  fontWeight: isActive("/restaurants") ? "600" : "400"
-                }}
-              >
-                Restaurants
-                {isActive("/restaurants") && (
-                  <span className="position-absolute bottom-0 start-50 translate-middle-x bg-warning" 
-                    style={{
-                      width: "60%",
-                      height: "2px",
-                      borderRadius: "2px"
-                    }}
-                  ></span>
-                )}
-              </Link>
-            </li>
+            {/* Render public nav items */}
+            {navItems.map((item) => (
+              <NavLink key={item.path} {...item} />
+            ))}
 
+            {/* Render protected nav items if logged in */}
             {isLoggedIn ? (
               <>
-                <li className="nav-item">
-                  <Link 
-                    className="nav-link position-relative py-2 px-3" 
-                    to="/cart"
-                    style={{ 
-                      color: isActive("/cart") ? "#FFD700" : "#f8f9fa",
-                      fontWeight: isActive("/cart") ? "600" : "400"
-                    }}
-                  >
-                    <i className="bi bi-cart3 me-1"></i>
-                    Cart
-                    {isActive("/cart") && (
-                      <span className="position-absolute bottom-0 start-50 translate-middle-x bg-warning" 
-                        style={{
-                          width: "60%",
-                          height: "2px",
-                          borderRadius: "2px"
-                        }}
-                      ></span>
-                    )}
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link 
-                    className="nav-link position-relative py-2 px-3" 
-                    to="/orders"
-                    style={{ 
-                      color: isActive("/orders") ? "#FFD700" : "#f8f9fa",
-                      fontWeight: isActive("/orders") ? "600" : "400"
-                    }}
-                  >
-                    <i className="bi bi-receipt me-1"></i>
-                    Orders
-                    {isActive("/orders") && (
-                      <span className="position-absolute bottom-0 start-50 translate-middle-x bg-warning" 
-                        style={{
-                          width: "60%",
-                          height: "2px",
-                          borderRadius: "2px"
-                        }}
-                      ></span>
-                    )}
-                  </Link>
-                </li>
-                <li className="nav-item">
+                {protectedNavItems.map((item) => (
+                  <NavLink key={item.path} {...item} />
+                ))}
+                <li className="nav-item d-flex align-items-center">
                   <Button 
                     variant="outline-warning" 
                     className="rounded-pill px-3 fw-medium ms-lg-2 mt-2 mt-lg-0"
@@ -148,27 +112,7 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <li className="nav-item">
-                  <Link 
-                    className="nav-link position-relative py-2 px-3" 
-                    to="/login"
-                    style={{ 
-                      color: isActive("/login") ? "#FFD700" : "#f8f9fa",
-                      fontWeight: isActive("/login") ? "600" : "400"
-                    }}
-                  >
-                    Login
-                    {isActive("/login") && (
-                      <span className="position-absolute bottom-0 start-50 translate-middle-x bg-warning" 
-                        style={{
-                          width: "60%",
-                          height: "2px",
-                          borderRadius: "2px"
-                        }}
-                      ></span>
-                    )}
-                  </Link>
-                </li>
+                <NavLink path="/login" label="Login" />
                 <li className="nav-item">
                   <Button 
                     as={Link} 

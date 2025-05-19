@@ -1,9 +1,11 @@
+// models/User.js
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  name: String,
   email: { type: String, required: true, unique: true },
-  password: String,
+  name: String,
+  password: String, // optional
+  createdAt: { type: Date, default: Date.now }
 });
 
 export default mongoose.model("User", userSchema);

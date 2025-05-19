@@ -89,10 +89,10 @@ const Home = () => {
           <Row className="justify-content-center text-center">
             <Col lg={8}>
               <h1 className="display-3 fw-bold mb-4 text-white">
-                Craving something <span className="text-warning">delicious?</span>
+             Craving <span className="text-danger">something</span>  <span className="text-warning">delicious?</span>
               </h1>
               <p className="lead mb-4 text-white fs-3">
-                Order from your favorite restaurants with <span className="text-warning fw-bold">FoodJet</span>
+                Order from your favorite restaurants with <span className="text-warning fw-bold">FoodJet <img src="" alt="" srcset="" /></span>
               </p>
               <div className="d-flex gap-3 justify-content-center">
                 <Button
@@ -140,7 +140,7 @@ const Home = () => {
         </Container>
       </div>
 
-      <div className="py-5 bg-warning">
+      <div className="py-5 bg-warning mb-5">
         <Container>
           <h2 className="text-center mb-5 fw-bold display-5 text-black">Explore Categories</h2>
           <Row className="g-4">
@@ -172,7 +172,7 @@ const Home = () => {
 
       <div className="py-5 bg-warning">
         <Container>
-          <h2 className="text-center mb-5 fw-bold display-5 text-black">Special Offers</h2>
+          <h2 className="text-center   mb-5 fw-bold display-5 text-black">Special Offers</h2>
           <Carousel indicators={false} className="rounded-4 overflow-hidden shadow">
             {offers.map((offer) => (
               <Carousel.Item key={offer.id} style={{ height: '400px' }}>
