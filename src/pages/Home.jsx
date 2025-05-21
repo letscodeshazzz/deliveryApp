@@ -92,7 +92,7 @@ const Home = () => {
              Craving <span className="text-danger">something</span>  <span className="text-warning">delicious?</span>
               </h1>
               <p className="lead mb-4 text-white fs-3">
-                Order from your favorite restaurants with <span className="text-warning fw-bold">FoodJet <img src="" alt="" srcset="" /></span>
+                Order from your favorite restaurants with <span className="text-warning fw-bold">FoodJet  <img src="" alt="" srcset="" /></span>
               </p>
               <div className="d-flex gap-3 justify-content-center">
                 <Button
