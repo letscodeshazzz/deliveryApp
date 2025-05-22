@@ -21,7 +21,7 @@ const RestaurantDetails = () => {
       } catch (err) {
         console.error("Failed to fetch menu:", err);
       }
-    };
+    }
 
     fetchMenu();
   }, [id]);

@@ -262,8 +262,8 @@ const Section = ({ title, data, bgColor }) => (
                   <span className="text-muted">
                     <i className="bi bi-clock me-1"></i> {restaurant.deliveryTime}
                   </span>
-                  <Button variant="outline-danger" size="sm" as={Link} to={`/restaurant/${restaurant.id}`}>
-                    View Menu
+                  <Button variant="outline-danger" size="sm" as={Link} to={`/restaurant-about/${restaurant.id}`}>
+                    View Details
                   </Button>
                 </div>
               </Card.Body>

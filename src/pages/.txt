@@ -1,4 +1,4 @@
-orders page pe kaam krna hai quantuty wal kaam nhi krra hai pamwn fail hori hai 
-paymen section add kra hai 
-ik demo delivery dikhana hai 
-aur ecplore restauarants se iamge fetch krna hai mongodb se 
+animation smooth krni hai aur ditance badao 
+bina order palce kiya order pe a ye tumne abhi koi order place nhi kiya hai dusra restaurant details addd krna hai and ik payment system add krna hai simple then ennd every thing
+restaurant about section kaam krra hai bs us thoda aur shi krna hai 
+adn evrything is odne 
