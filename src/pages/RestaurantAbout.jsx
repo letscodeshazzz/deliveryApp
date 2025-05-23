@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Card, Row, Col, Button, Form, Badge, Carousel } from "react-bootstrap";
 import { 
@@ -9,7 +9,8 @@ import {
   GeoAlt, 
   Calendar,
   HeartFill,
-  Heart
+  Heart,
+  Trash
 } from "react-bootstrap-icons";
 
 const restaurantDetails = {
@@ -94,6 +95,73 @@ const restaurantDetails = {
       { id: 1, user: "Arjun Khanna", rating: 4.5, comment: "Consistently good food over the years. My go-to place.", date: "2023-06-05" },
       { id: 2, user: "Meena Desai", rating: 4, comment: "Love their tandoori items. Always fresh and well-cooked.", date: "2023-05-15" }
     ]
+  },
+  6: {
+    name: "Sagar Ratna",
+    description: "Premium vegetarian restaurant chain known for authentic South Indian cuisine. Our dosas, idlis and filter coffee bring the flavors of Chennai to Delhi with consistent quality and taste. Established in 1986, we've been serving Delhiites the best South Indian breakfast and meals for decades.",
+    location: "Defence Colony, Delhi",
+    established: 1986,
+    special: "Masala Dosa, Rava Uttapam, Idli Sambar, Filter Coffee, Pongal",
+    image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    rating: 4.5,
+    deliveryTime: "25-40 min",
+    timing: "8:00 AM - 11:00 PM",
+    priceRange: "₹₹ (Affordable)",
+    reviews: [
+      { id: 1, user: "Sanjay Gupta", rating: 4.5, comment: "Best South Indian food in Delhi. Their sambar is perfectly spiced.", date: "2023-06-05" },
+      { id: 2, user: "Meera Iyer", rating: 4, comment: "Authentic taste reminds me of home. The filter coffee is a must-try!", date: "2023-05-20" },
+      { id: 3, user: "Arvind Kumar", rating: 5, comment: "Consistent quality over the years. My favorite place for weekend breakfast.", date: "2023-04-12" }
+    ]
+  },
+  7: {
+    name: "Paradise Biryani",
+    description: "The most iconic name in Hyderabadi cuisine, Paradise has been serving legendary biryani since 1953. Our secret recipe and traditional dum cooking method create the perfect blend of aromatic spices and tender meat that has made us famous worldwide.",
+    location: "Secunderabad, Hyderabad",
+    established: 1953,
+    special: "Hyderabadi Dum Biryani, Double Ka Meetha, Haleem, Kebabs",
+    image: "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    rating: 4.9,
+    deliveryTime: "40-55 min",
+    timing: "11:00 AM - 11:00 PM",
+    priceRange: "₹₹₹ (Mid-range)",
+    reviews: [
+      { id: 1, user: "Rajesh Reddy", rating: 5, comment: "The biryani here is worth the hype! Perfectly cooked with amazing flavors.", date: "2023-06-18" },
+      { id: 2, user: "Sunitha Rao", rating: 4.5, comment: "A Hyderabad institution. The mutton biryani is absolutely divine.", date: "2023-05-22" },
+      { id: 3, user: "Vikram Singh", rating: 4, comment: "Always crowded but the food makes up for the wait. Must try their special biryani.", date: "2023-04-15" }
+    ]
+  },
+  8: {
+    name: "Bawarchi",
+    description: "Founded in 1999, Bawarchi has become synonymous with authentic Hyderabadi flavors at reasonable prices. Our chefs specialize in traditional recipes with a focus on rich, aromatic biryanis and succulent kebabs cooked in our signature style.",
+    location: "RTC Cross Roads, Hyderabad",
+    established: 1999,
+    special: "Bawarchi Special Biryani, Chicken 65, Mirchi Ka Salan, Baghare Baingan",
+    image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    rating: 4.6,
+    deliveryTime: "35-50 min",
+    timing: "11:30 AM - 11:00 PM",
+    priceRange: "₹₹ (Affordable)",
+    reviews: [
+      { id: 1, user: "Arjun Kapoor", rating: 4.5, comment: "Best value for money biryani in Hyderabad. Huge portions!", date: "2023-06-10" },
+      { id: 2, user: "Priya Sharma", rating: 4, comment: "Their biryani has the perfect balance of spices. Chicken 65 is amazing too.", date: "2023-05-05" }
+    ]
+  },
+  9: {
+    name: "Pista House",
+    description: "Pista House is famous for its Haleem during Ramadan and year-round Hyderabadi delicacies. What started as a small outlet in 1998 is now a city-wide favorite known for maintaining traditional flavors while ensuring consistent quality.",
+    location: "Nampally, Hyderabad",
+    established: 1998,
+    special: "Haleem, Biryani, Kebabs, Double Ka Meetha, Irani Chai",
+    image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    rating: 4.5,
+    deliveryTime: "30-45 min",
+    timing: "10:00 AM - 10:30 PM",
+    priceRange: "₹₹ (Affordable)",
+    reviews: [
+      { id: 1, user: "Mohammed Ali", rating: 5, comment: "The best Haleem in Hyderabad during Ramadan. Worth every penny!", date: "2023-06-12" },
+      { id: 2, user: "Anjali Patel", rating: 4, comment: "Love their Irani chai and biscuits combo. Perfect evening snack.", date: "2023-05-20" },
+      { id: 3, user: "Rahul Verma", rating: 4.5, comment: "Their biryani is underrated compared to the bigger names but equally good.", date: "2023-04-08" }
+    ]
   }
 };
 
@@ -103,6 +171,30 @@ const RestaurantAbout = () => {
   const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
   const [isFavorite, setIsFavorite] = useState(false);
   const [reviews, setReviews] = useState(data?.reviews || []);
+  
+  // Load reviews from localStorage on component mount
+  useEffect(() => {
+    const savedReviews = localStorage.getItem(`restaurant_${id}_reviews`);
+    if (savedReviews) {
+      setReviews(JSON.parse(savedReviews));
+    }
+    
+    // Load favorite status from localStorage
+    const savedFavorites = JSON.parse(localStorage.getItem('favoriteRestaurants') || '{}');
+    setIsFavorite(savedFavorites[id] || false);
+  }, [id]);
+
+  // Save reviews to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem(`restaurant_${id}_reviews`, JSON.stringify(reviews));
+  }, [reviews, id]);
+
+  // Save favorite status to localStorage
+  useEffect(() => {
+    const savedFavorites = JSON.parse(localStorage.getItem('favoriteRestaurants') || '{}');
+    savedFavorites[id] = isFavorite;
+    localStorage.setItem('favoriteRestaurants', JSON.stringify(savedFavorites));
+  }, [isFavorite, id]);
 
   if (!data) {
     return (
@@ -116,7 +208,7 @@ const RestaurantAbout = () => {
   const handleReviewSubmit = (e) => {
     e.preventDefault();
     const review = {
-      id: reviews.length + 1,
+      id: Date.now(), // Use timestamp for unique ID
       user: "You",
       rating: newReview.rating,
       comment: newReview.comment,
@@ -124,6 +216,16 @@ const RestaurantAbout = () => {
     };
     setReviews([...reviews, review]);
     setNewReview({ rating: 5, comment: "" });
+  };
+
+  const handleDeleteReview = (reviewId) => {
+    setReviews(reviews.filter(review => review.id !== reviewId));
+  };
+
+  const calculateAverageRating = () => {
+    if (reviews.length === 0) return data.rating;
+    const sum = reviews.reduce((total, review) => total + review.rating, 0);
+    return (sum / reviews.length).toFixed(1);
   };
 
   const renderStars = (rating) => {
@@ -169,8 +271,8 @@ const RestaurantAbout = () => {
         <div className="position-absolute bottom-0 start-0 p-3 text-white" style={{ backgroundColor: "rgba(0,0,0,0.5)", width: "100%" }}>
           <h1 className="mb-0">{data.name}</h1>
           <div className="d-flex align-items-center">
-            {renderStars(data.rating)}
-            <span className="ms-2">{data.rating} ({reviews.length} reviews)</span>
+            {renderStars(calculateAverageRating())}
+            <span className="ms-2">{calculateAverageRating()} ({reviews.length} reviews)</span>
           </div>
         </div>
       </div>
@@ -278,15 +380,15 @@ const RestaurantAbout = () => {
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h4 className="text-danger mb-0">Reviews</h4>
                 <div className="d-flex align-items-center">
-                  {renderStars(data.rating)}
-                  <span className="ms-2">{data.rating}</span>
+                  {renderStars(calculateAverageRating())}
+                  <span className="ms-2">{calculateAverageRating()}</span>
                 </div>
               </div>
               
               <div className="mb-3">
                 {[5, 4, 3, 2, 1].map((star) => {
                   const count = reviews.filter(r => Math.floor(r.rating) === star).length;
-                  const percentage = (count / reviews.length) * 100;
+                  const percentage = reviews.length > 0 ? (count / reviews.length) * 100 : 0;
                   
                   return (
                     <div key={star} className="d-flex align-items-center mb-2">
@@ -321,7 +423,19 @@ const RestaurantAbout = () => {
               <div key={review.id} className="border-bottom pb-3 mb-3">
                 <div className="d-flex justify-content-between">
                   <h5>{review.user}</h5>
-                  <small className="text-muted">{review.date}</small>
+                  <div className="d-flex align-items-center">
+                    <small className="text-muted me-2">{review.date}</small>
+                    {review.user === "You" && (
+                      <Button 
+                        variant="outline-danger" 
+                        size="sm" 
+                        onClick={() => handleDeleteReview(review.id)}
+                        aria-label="Delete review"
+                      >
+                        <Trash size={14} />
+                      </Button>
+                    )}
+                  </div>
                 </div>
                 <div className="mb-2">
                   {renderStars(review.rating)}

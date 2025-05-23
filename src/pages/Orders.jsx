@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Card, ProgressBar, Button, Badge, Row, Col, Spinner } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { Container, Card, ProgressBar, Button, Badge, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -9,34 +10,33 @@ import {
   MdTimer, 
   MdRestaurant, 
   MdPerson,
-  MdDirectionsBike,
   MdCheckCircle,
-  MdAccessTime
+  MdAccessTime,
+  MdFastfood
 } from 'react-icons/md';
-import { FaMotorcycle, FaMapMarkerAlt, FaStore } from 'react-icons/fa';
+import { FaMotorcycle, FaMapMarkerAlt, FaStore, FaShoppingBag } from 'react-icons/fa';
 
-// Custom icons with better visuals
+// Custom icons
 const deliveryBikeIcon = new L.Icon({
-  iconUrl: 	'https://cdn-icons-png.flaticon.com/128/9561/9561839.png', // motorcycle
+  iconUrl: 'https://cdn-icons-png.flaticon.com/128/9561/9561839.png',
   iconSize: [40, 40],
   iconAnchor: [20, 20],
   popupAnchor: [0, -20],
 });
 
 const restaurantIcon = new L.Icon({
-  iconUrl: 'https://cdn-icons-png.flaticon.com/128/9425/9425767.png', // restaurant
+  iconUrl: 'https://cdn-icons-png.flaticon.com/128/9425/9425767.png',
   iconSize: [35, 35],
   iconAnchor: [17, 17],
   popupAnchor: [0, -20],
 });
 
 const customerIcon = new L.Icon({
-  iconUrl: '	https://cdn-icons-png.flaticon.com/128/10307/10307931.png', // customer/home
+  iconUrl: 'https://cdn-icons-png.flaticon.com/128/10307/10307931.png',
   iconSize: [35, 35],
   iconAnchor: [17, 17],
   popupAnchor: [0, -20],
 });
-
 
 // Helper functions
 const getRandomStartPos = (baseLat, baseLng) => {
@@ -60,34 +60,36 @@ const SmoothPanTo = ({ center }) => {
   return null;
 };
 
-const DeliveryTracking = ({ orderId }) => {
+const DeliveryTracking = () => {
+  const navigate = useNavigate();
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [orderId, setOrderId] = useState(null);
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  
   const deliveryStages = [
     { 
       id: 1, 
       name: 'Order Placed', 
       description: 'We received your order',
-      // location: 'Burger Palace', 
       progress: 0, 
       icon: <FaStore className="text-danger" />,
-      time: '2:45 PM'
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     },
     { 
       id: 2, 
       name: 'Preparing Food', 
       description: 'Chef is cooking your meal',
-      // location: 'Burger Palace', 
       progress: 25, 
-      icon: <MdRestaurant className="text-danger"  />,
-      time: '2:50 PM'
+      icon: <MdRestaurant className="text-danger" />,
+      time: new Date(Date.now() + 5*60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     },
     { 
       id: 3, 
       name: 'Food Ready', 
       description: 'Your food is packed and ready',
-      // location: 'Burger Palace', 
       progress: 50, 
       icon: <MdCheckCircle className="text-warning" />,
-      time: '3:05 PM'
+      time: new Date(Date.now() + 15*60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     },
     { 
       id: 4, 
@@ -96,7 +98,7 @@ const DeliveryTracking = ({ orderId }) => {
       location: 'In Transit', 
       progress: 75, 
       icon: <FaMotorcycle className="text-warning" />,
-      time: '3:10 PM'
+      time: new Date(Date.now() + 20*60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     },
     { 
       id: 5, 
@@ -105,7 +107,7 @@ const DeliveryTracking = ({ orderId }) => {
       location: 'Your Location', 
       progress: 100, 
       icon: <MdPerson className="text-danger" />,
-      time: '3:25 PM '
+      time: new Date(Date.now() + 35*60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     },
   ];
 
@@ -113,26 +115,50 @@ const DeliveryTracking = ({ orderId }) => {
   const customerPos = [28.6129, 77.2290];
   const [currentStage, setCurrentStage] = useState(0);
   const [driverPos, setDriverPos] = useState(restaurantPos);
-
   const [mapCenter, setMapCenter] = useState(driverPos);
   const [pathVisible, setPathVisible] = useState(false);
   const [eta, setEta] = useState('Calculating...');
   const [driverInfo] = useState({
-    name: 'DeliveryBoy.',
+    name: 'Rahul K.',
     rating: '4.9',
-    vehicle: 'DeliveryBike',
-    plate: 'UP32 KE 3232',
+    vehicle: 'TVS Jupiter',
+    plate: 'DL5S AB1234',
     phone: '+91 98765 43210'
   });
 
-  // Calculate initial ETA
+  const handlePlaceOrder = () => {
+    setIsPlacingOrder(true);
+    
+    // Simulate API call to place order
+    setTimeout(() => {
+      const newOrderId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
+      setOrderId(newOrderId);
+      setOrderPlaced(true);
+      setIsPlacingOrder(false);
+      setCurrentStage(0);
+      setDriverPos(restaurantPos);
+      setMapCenter(restaurantPos);
+      setPathVisible(false);
+      setEta('Calculating...');
+    }, 1500);
+  };
+
+  const handleBrowseRestaurants = () => {
+    navigate('/restaurants');
+  };
+
+  // Calculate initial ETA when order is placed
   useEffect(() => {
-    const distance = 2.5; // km - would normally calculate from coordinates
+    if (!orderPlaced) return;
+    
+    const distance = 2.5;
     setEta(`${calculateETA(distance)} min`);
-  }, []);
+  }, [orderPlaced]);
 
   // Stage progression
   useEffect(() => {
+    if (!orderPlaced) return;
+    
     const timer = setInterval(() => {
       setCurrentStage(prev => {
         if (prev >= deliveryStages.length - 1) {
@@ -143,14 +169,16 @@ const DeliveryTracking = ({ orderId }) => {
       });
     }, 8000);
     return () => clearInterval(timer);
-  }, []);
+  }, [orderPlaced]);
 
   // Smooth movement
   useEffect(() => {
+    if (!orderPlaced) return;
+    
     if (currentStage === 3) {
       setPathVisible(true);
-      const duration = 30000; // 30 seconds
-      const steps = 100; // More steps = smoother
+      const duration = 30000;
+      const steps = 100;
       const intervalTime = duration / steps;
     
       const [startLat, startLng] = restaurantPos;
@@ -168,7 +196,7 @@ const DeliveryTracking = ({ orderId }) => {
         const progress = step / steps;
         const remainingDistance = 2.5 * (1 - progress);
         setEta(`${Math.max(1, Math.ceil(calculateETA(remainingDistance)))} min`);
-    
+
         if (step >= steps) {
           clearInterval(animationInterval);
           setDriverPos(customerPos);
@@ -179,13 +207,67 @@ const DeliveryTracking = ({ orderId }) => {
       return () => clearInterval(animationInterval);
     }
     
-
     if (currentStage >= 4) {
       setDriverPos(customerPos);
       setMapCenter(customerPos);
       setEta('Delivered');
     }
-  }, [currentStage]);
+  }, [currentStage, orderPlaced]);
+
+  if (!orderPlaced) {
+    return (
+      <Container className="my-4 delivery-tracking-container">
+        <Card className="shadow-lg border-0 rounded-4 overflow-hidden">
+          <Card.Header className="bg-danger text-white py-4 rounded-top-4">
+            <h4 className="mb-0 d-flex align-items-center justify-content-center">
+              <FaShoppingBag className="me-3" size={24} />
+              <span className="fw-bold">No Active Orders</span>
+            </h4>
+          </Card.Header>
+          <Card.Body className="text-center py-5">
+            <div className="mb-4">
+              <MdFastfood size={64} className="text-muted mb-3" />
+              <h4 className="fw-bold mb-3">Hungry? Order Now!</h4>
+              <p className="text-muted mb-4">
+                You haven't placed any orders yet. Click below to start your food journey!
+              </p>
+              <div className="d-flex justify-content-center gap-3">
+                <Button 
+                  variant="outline-danger" 
+                  size="lg" 
+                  className="fw-bold px-4 py-2 rounded-pill"
+                  onClick={handleBrowseRestaurants}
+                >
+                  Browse Restaurants
+                </Button>
+                <Button 
+                  variant="danger" 
+                  size="lg" 
+                  className="fw-bold px-4 py-2 rounded-pill"
+                  onClick={handlePlaceOrder}
+                  disabled={isPlacingOrder}
+                >
+                  {isPlacingOrder ? (
+                    <>
+                      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                      <span className="ms-2">Placing Order...</span>
+                    </>
+                  ) : 'Place Your Order '}
+                </Button>
+              </div>
+            </div>
+            
+            <Alert variant="light" className="mt-4">
+              <div className="d-flex align-items-center justify-content-center">
+                <MdDeliveryDining className="me-2 text-danger" size={20} />
+                <span className="fw-bold">Fast delivery in 30-40 minutes</span>
+              </div>
+            </Alert>
+          </Card.Body>
+        </Card>
+      </Container>
+    );
+  }
 
   return (
     <Container className="my-4 delivery-tracking-container">
@@ -196,7 +278,7 @@ const DeliveryTracking = ({ orderId }) => {
               <MdDeliveryDining className="me-2" />
               <span className="fw-bold">Order #{orderId}</span>
             </h4>
-            <Badge bg="light" text="primary" className="fs-6">
+            <Badge bg="light" text="danger" className="fs-6">
               {deliveryStages[currentStage].name}
             </Badge>
           </div>
@@ -230,7 +312,7 @@ const DeliveryTracking = ({ orderId }) => {
               {deliveryStages.map((stage, index) => (
                 <div 
                   key={stage.id} 
-                  className={`text-center ${index <= currentStage ? 'text-primary' : 'text-muted'}`}
+                  className={`text-center ${index <= currentStage ? 'text-danger' : 'text-muted'}`}
                   style={{ width: `${100/deliveryStages.length}%` }}
                 >
                   <div className={`stage-dot ${index <= currentStage ? 'active' : ''}`}>
@@ -243,36 +325,40 @@ const DeliveryTracking = ({ orderId }) => {
           </div>
 
           {/* Delivery Partner Info */}
-          <Card className="mb-4 border-0 shadow-sm">
-            <Card.Body>
-              <Row className="align-items-center">
-                <Col xs="auto">
-                  <div className="driver-avatar bg-primary text-white">
-                    {driverInfo.name.charAt(0)}
-                  </div>
-                </Col>
-                <Col>
-                  <h6 className="mb-1 fw-bold">{driverInfo.name}</h6>
-                  <div className="d-flex align-items-center mb-1">
-                    <span className="badge bg-warning text-dark me-2">
-                      {driverInfo.rating} ★
-                    </span>
+          {currentStage >= 3 && (
+            <Card className="mb-4 border-0 shadow-sm">
+              <Card.Body>
+                <Row className="align-items-center">
+                  <Col xs="auto">
+                    <div className="driver-avatar bg-danger text-white">
+                      {driverInfo.name.charAt(0)}
+                    </div>
+                  </Col>
+                  <Col>
+                    <h6 className="mb-1 fw-bold">{driverInfo.name}</h6>
+                    <div className="d-flex align-items-center mb-1">
+                      <span className="badge bg-warning text-dark me-2">
+                        {driverInfo.rating} ★
+                      </span>
+                      <small className="text-muted">
+                        <FaMotorcycle className="me-1" />
+                        {driverInfo.vehicle} ({driverInfo.plate})
+                      </small>
+                    </div>
                     <small className="text-muted">
-                      <FaMotorcycle className="me-1" />
-                      {driverInfo.vehicle} ({driverInfo.plate})
+                      <MdAccessTime className="me-1" />
+                      On time record: 98%
                     </small>
-                  </div>
-                  <small className="text-muted">
-                    <MdAccessTime className="me-1" />
-                    On time record: 98%
-                  </small>
-                </Col>
-                <Col xs="auto">
-
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card>
+                  </Col>
+                  <Col xs="auto">
+                    <Button variant="outline-danger" size="sm">
+                      Call
+                    </Button>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          )}
 
           {/* Map */}
           <div className="mb-4">
@@ -323,7 +409,7 @@ const DeliveryTracking = ({ orderId }) => {
                 <Marker position={customerPos} icon={customerIcon}>
                   <Popup className="fw-bold">
                     <div className="d-flex align-items-center">
-                      <MdPerson className="me-2 text-primary" />
+                      <MdPerson className="me-2 text-danger" />
                       <div>
                         <strong>Your Location</strong>
                         <div className="text-muted">Delivery destination</div>
@@ -332,28 +418,28 @@ const DeliveryTracking = ({ orderId }) => {
                   </Popup>
                 </Marker>
                 
-                <Marker position={driverPos} icon={deliveryBikeIcon}>
-                  <Popup className="fw-bold">
-                    <div className="d-flex align-items-center">
-                      <FaMotorcycle className="me-2 text-warning" />
-                      <div>
-                        <strong>Your Delivery Partner</strong>
-                        <div className="text-muted">{driverInfo.name}</div>
+                {currentStage >= 3 && (
+                  <Marker position={driverPos} icon={deliveryBikeIcon}>
+                    <Popup className="fw-bold">
+                      <div className="d-flex align-items-center">
+                        <FaMotorcycle className="me-2 text-warning" />
+                        <div>
+                          <strong>Your Delivery Partner</strong>
+                          <div className="text-muted">{driverInfo.name}</div>
+                        </div>
                       </div>
-                    </div>
-                  </Popup>
-                </Marker>
+                    </Popup>
+                  </Marker>
+                )}
 
-                {/* Path with realistic curved route */}
                 {pathVisible && (
-  <Polyline
-    positions={[restaurantPos, driverPos]}
-    color="orange"
-    weight={4}
-    dashArray="8"
-  />
-)}
-
+                  <Polyline
+                    positions={[restaurantPos, driverPos]}
+                    color="orange"
+                    weight={4}
+                    dashArray="8"
+                  />
+                )}
               </MapContainer>
             </div>
           </div>
@@ -384,19 +470,21 @@ const DeliveryTracking = ({ orderId }) => {
                       <h6 className={`mb-1 fw-bold ${index <= currentStage ? 'text-dark' : 'text-muted'}`}>
                         {stage.name}
                       </h6>
-                      <small className={index <= currentStage ? 'text-primary' : 'text-muted'}>
+                      <small className={index <= currentStage ? 'text-danger' : 'text-muted'}>
                         {stage.time}
                       </small>
                     </div>
                     <p className={`mb-1 small ${index <= currentStage ? 'text-dark' : 'text-muted'}`}>
                       {stage.description}
                     </p>
-                    <div className="d-flex align-items-center">
-                      <MdLocationPin className={`me-1 ${index <= currentStage ? 'text-primary' : 'text-muted'}`} />
-                      <small className={index <= currentStage ? 'text-dark' : 'text-muted'}>
-                        {stage.location}
-                      </small>
-                    </div>
+                    {stage.location && (
+                      <div className="d-flex align-items-center">
+                        <MdLocationPin className={`me-1 ${index <= currentStage ? 'text-danger' : 'text-muted'}`} />
+                        <small className={index <= currentStage ? 'text-dark' : 'text-muted'}>
+                          {stage.location}
+                        </small>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -407,14 +495,12 @@ const DeliveryTracking = ({ orderId }) => {
             <Button variant="outline-danger" className="fw-bold px-4 py-2 rounded-pill me-3">
               Contact Support
             </Button>
-            <Button variant="outline-danger" className="fw-bold px-4 py-2 rounded-pill">
-              Rate Your Delivery Partner
+            <Button variant="danger" className="fw-bold px-4 py-2 rounded-pill">
+              Rate Your Delivery
             </Button>
           </div>
         </Card.Body>
       </Card>
-
-    
     </Container>
   );
 };
