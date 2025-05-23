@@ -13,6 +13,9 @@ import Cart from "./pages/CartPage";
 import Orders from "./pages/Orders";
 import Profile from "./pages/Profile";
 
+
+
+
 function App() {
   return (
     <>
@@ -26,6 +29,8 @@ function App() {
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="/restaurant/:id" element={<RestaurantDetails />} />
           <Route path="/restaurant-about/:id" element={<RestaurantAbout />} />
+          // In your main routing file (App.js or similar)
+           {/* <Route path="/order" element={<DeliveryTracking />} /> */}
 
           {/* Protected Routes */}
           <Route 

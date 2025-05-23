@@ -45,7 +45,7 @@ const Login = () => {
           style={{
             width: "100%",
             maxWidth: "400px",
-            backgroundColor: "rgba(255, 255, 255, 0.85)", // slightly more transparent
+            backgroundColor: "rgba(255, 255, 255, 0.85)", 
             borderRadius: "15px",
             padding: "2rem",
             boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",

@@ -1,29 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Card, Button, ButtonGroup } from "react-bootstrap";
+import { Container, Card, Button, ButtonGroup, Spinner } from "react-bootstrap";
 import axios from "axios";
 import { useCart } from "../context/CartContext";
-import { FaShoppingCart, FaBolt } from "react-icons/fa";
+import { FaShoppingCart, FaBolt, FaArrowLeft } from "react-icons/fa";
 
 const RestaurantDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [menu, setMenu] = useState([]);
+  const [restaurant, setRestaurant] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [addedItems, setAddedItems] = useState([]);
   const { addToCart } = useCart();
 
   useEffect(() => {
-    const fetchMenu = async () => {
+    const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5174/api/restaurants/${id}/menu`);
-        const menuData = res.data.menu || res.data;
+        setLoading(true);
+        const [menuRes, restaurantRes] = await Promise.all([
+          axios.get(`http://localhost:5175/api/restaurants/${id}/menu`)
+          // axios.get(`http://localhost:5175/api/restaurants/${id}`)
+        ]);
+        
+        const menuData = menuRes.data.menu || menuRes.data;
         setMenu(menuData);
+        setRestaurant(restaurantRes.data);
+        setLoading(false);
       } catch (err) {
-        console.error("Failed to fetch menu:", err);
+        console.error("Failed to fetch data:", err);
+        setLoading(false);
       }
-    }
+    };
 
-    fetchMenu();
+    fetchData();
   }, [id]);
 
   const handleAddToCart = (item) => {
@@ -32,53 +42,110 @@ const RestaurantDetails = () => {
   };
 
   const handleOrderNow = (item) => {
-    handleAddToCart(item); // Add the item to cart first
-    navigate("/orders"); // Now correctly navigating to orders page
+    handleAddToCart(item);
+    navigate("/cart");
   };
 
-  return (
-    <Container className="mt-5">
-      <h2 className="mb-4">Menu</h2>
+  if (loading) {
+    return (
+      <div className="restaurant-details-bg">
+        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+          <Spinner animation="border" variant="light" />
+        </Container>
+      </div>
+    );
+  }
 
-      {menu.length === 0 ? (
-        <p>No menu available for this restaurant.</p>
-      ) : (
-        menu.map((item) => (
-          <Card key={item._id} className="mb-3 shadow-sm">
-            <Card.Body className="d-flex justify-content-between align-items-center">
-              <div className="flex-grow-1">
-                <Card.Title className="mb-1">{item.name}</Card.Title>
-                <Card.Text className="text-danger fw-bold mb-0">₹{item.price}</Card.Text>
-                {item.description && (
-                  <small className="text-muted">{item.description}</small>
-                )}
+  return (
+    <div className="restaurant-details-bg">
+      <Container style={{ padding: '40px 0' }}>
+        <Button 
+          variant="light" 
+          onClick={() => navigate(-1)} 
+          className="mb-4 d-flex align-items-center gap-2"
+        >
+          <FaArrowLeft /> Back to Restaurants
+        </Button>
+
+        {restaurant && (
+          <Card className="mb-4 border-0 shadow" style={{ backgroundColor: 'rgba(255,255,255,0.9)' }}>
+            <Card.Body className="d-flex align-items-center">
+              <img 
+                src={restaurant.image || "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"} 
+                alt={restaurant.name}
+                className="rounded-circle me-4"
+                style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+              />
+              <div>
+                <h2 className="mb-1 text-danger">{restaurant.name}</h2>
+                <p className="text-muted mb-1">{restaurant.cuisine}</p>
+                <div className="d-flex align-items-center text-warning mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <i 
+                      key={i} 
+                      className={`fas fa-star${i < 4 ? '' : '-half-alt'}`} 
+                    />
+                  ))}
+                  <span className="ms-2 text-dark">4.5 (120 reviews)</span>
+                </div>
+                <p className="text-dark mb-0">
+                  <i className="fas fa-map-marker-alt text-danger me-2"></i>
+                  {restaurant.address || "City Center"}
+                </p>
               </div>
-              <ButtonGroup>
-                <Button
-                  variant={addedItems.includes(item._id) ? "outline-secondary" : "outline-danger"}
-                  size="sm"
-                  disabled={addedItems.includes(item._id)}
-                  onClick={() => handleAddToCart(item)}
-                  className="d-flex align-items-center"
-                >
-                  <FaShoppingCart className="me-1" />
-                  {addedItems.includes(item._id) ? "Added" : "Add"}
-                </Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => handleOrderNow(item)}
-                  className="d-flex align-items-center"
-                >
-                  <FaBolt className="me-1" />
-                  Order Now
-                </Button>
-              </ButtonGroup>
             </Card.Body>
           </Card>
-        ))
-      )}
-    </Container>
+        )}
+
+        <Card className="border-0 shadow" style={{ backgroundColor: 'rgba(255,255,255,0.9)' }}>
+          <Card.Header className="bg-danger text-white">
+            <h3 className="mb-0">Menu</h3>
+          </Card.Header>
+          <Card.Body>
+            {menu.length === 0 ? (
+              <p className="text-center text-muted">No menu available for this restaurant.</p>
+            ) : (
+              menu.map((item) => (
+                <div key={item._id} className="mb-3 pb-3 border-bottom">
+                  <div className="d-flex justify-content-between align-items-start">
+                    <div className="flex-grow-1">
+                      <h5 className="mb-1">{item.name}</h5>
+                      <p className="text-danger fw-bold mb-1">₹{item.price}</p>
+                      {item.description && (
+                        <small className="text-muted d-block">{item.description}</small>
+                      )}
+                    </div>
+                    <ButtonGroup>
+                      <Button
+                        variant={addedItems.includes(item._id) ? "outline-secondary" : "outline-danger"}
+                        size="sm"
+                        disabled={addedItems.includes(item._id)}
+                        onClick={() => handleAddToCart(item)}
+                        className="d-flex align-items-center"
+                      >
+                        <FaShoppingCart className="me-1" />
+                        {addedItems.includes(item._id) ? "Added" : "Add"}
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => handleOrderNow(item)}
+                        className="d-flex align-items-center"
+                      >
+                        <FaBolt className="me-1" />
+                        Order Now
+                      </Button>
+                    </ButtonGroup>
+                  </div>
+                </div>
+              ))
+            )}
+          </Card.Body>
+        </Card>
+      </Container>
+
+    
+    </div>
   );
 };
 
@@ -94,51 +161,4 @@ export default RestaurantDetails;
 
 
 
-
-
-//   1: [
-//     { id: 101, name: "Paneer Butter Masala", price: 250 },
-//     { id: 102, name: "Butter Naan", price: 100 },
-//     { id: 103, name: "Aloo Gobi", price: 180 },
-//     { id: 104, name: "Baingan Bharta", price: 220 },
-//     { id: 105, name: "Dal Tadka", price: 150 },
-//     { id: 106, name: "Chole Bhature", price: 200 },
-//     { id: 107, name: "Palak Paneer", price: 240 },
-//     { id: 108, name: "Veg Biryani", price: 270 },
-//     { id: 109, name: "Pulao", price: 150 },
-//     { id: 110, name: "Malai Kofta", price: 280 },
-//   ],
-//   2: [
-//     { id: 201, name: "Cheese Burger", price: 150 },
-//     { id: 202, name: "Chicken Burger", price: 200 },
-//     { id: 203, name: "Veg Burger", price: 120 },
-//     { id: 204, name: "Double Cheese Burger", price: 250 },
-//     { id: 205, name: "Beef Burger", price: 300 },
-//     { id: 206, name: "BBQ Chicken Burger", price: 250 },
-//     { id: 207, name: "Fish Burger", price: 220 },
-//     { id: 208, name: "Paneer Tikka Burger", price: 180 },
-//     { id: 209, name: "Spicy Chicken Burger", price: 220 },
-//     { id: 210, name: "Classic Veg Burger", price: 140 },
-//     { id: 210, name: "White Sauce Pasta", price: 300 },
-//   ],
-//   3: [
-//     { id: 301, name: "Haleem", price: 350 },
-//     { id: 302, name: "Chicken Biryani", price: 500 },
-//     { id: 303, name: "Mutton Korma", price: 600 },
-//     { id: 304, name: "Tunday Kebab", price: 450 },
-//     { id: 305, name: "Chicken Seekh Kebab", price: 400 },
-//     { id: 306, name: "Mutton Seekh Kebab", price: 550 },
-//     { id: 307, name: "Butter Chicken", price: 400 },
-//     { id: 308, name: "Grilled Fish", price: 600 },
-//     { id: 309, name: "Chicken Tikka", price: 350 },
-//     { id: 310, name: "Mutton Pulao", price: 500 },
-//   ],
-// };
-
-
-// const restaurantNames = {
-//   1: "Moti Mahal-all your tasties here",
-//   2: "Home Sweet Home-time for yumm",
-//   3: "Tunday Kebab-shaahi zaika nawabo ka",
-// };
 

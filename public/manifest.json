@@ -1,0 +1,11 @@
+{
+    "name": "Test App",
+    "short_name": "TestApp",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "icons": [],
+    "serviceworker": {}
+  }
+  

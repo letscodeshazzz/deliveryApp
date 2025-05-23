@@ -248,7 +248,7 @@ const RestaurantAbout = () => {
 
   return (
     <Container className="my-5">
-      {/* Restaurant Header with Image */}
+     
       <div className="position-relative mb-4">
         <img 
           src={data.image} 
@@ -278,7 +278,7 @@ const RestaurantAbout = () => {
       </div>
 
       <Row>
-        {/* Restaurant Details */}
+  
         <Col md={8}>
           <Card className="mb-4 shadow-sm">
             <Card.Body>
@@ -413,7 +413,7 @@ const RestaurantAbout = () => {
         </Col>
       </Row>
 
-      {/* Reviews Section */}
+    
       <Card className="mb-4 shadow-sm">
         <Card.Body>
           <h4 className="text-danger mb-3">Customer Reviews</h4>

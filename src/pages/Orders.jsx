@@ -38,7 +38,7 @@ const customerIcon = new L.Icon({
   popupAnchor: [0, -20],
 });
 
-// Helper functions
+
 const getRandomStartPos = (baseLat, baseLng) => {
   const latOffset = (Math.random() - 0.5) * 0.005;
   const lngOffset = (Math.random() - 0.5) * 0.005;
@@ -128,8 +128,7 @@ const DeliveryTracking = () => {
 
   const handlePlaceOrder = () => {
     setIsPlacingOrder(true);
-    
-    // Simulate API call to place order
+
     setTimeout(() => {
       const newOrderId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
       setOrderId(newOrderId);
@@ -147,7 +146,7 @@ const DeliveryTracking = () => {
     navigate('/restaurants');
   };
 
-  // Calculate initial ETA when order is placed
+ 
   useEffect(() => {
     if (!orderPlaced) return;
     

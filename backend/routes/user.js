@@ -3,7 +3,7 @@ import User from "../models/User.js";
 
 const router = express.Router();
 
-// GET profile by email
+
 router.get("/:email", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.params.email });
@@ -20,7 +20,7 @@ router.put("/:email", async (req, res) => {
     const updatedUser = await User.findOneAndUpdate(
       { email: req.params.email },
       req.body,
-      { new: true, upsert: true } // create if not exists
+      { new: true, upsert: true } 
     );
     res.json(updatedUser);
   } catch (err) {

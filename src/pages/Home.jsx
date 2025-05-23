@@ -198,12 +198,12 @@ const Home = () => {
         </Container>
       </div>
 
-      {/* City Restaurants Sections */}
+     
       <Section title="Top Restaurants in Lucknow " data={restaurantsLucknow} bgColor="bg-white text-danger" />
       <Section title="Top Restaurants in Delhi" data={restaurantsDelhi} bgColor="bg-white text-danger" />
       <Section title="Top Restaurants in Hyderabad" data={restaurantsHyderabad} bgColor="bg-white text-danger" />
 
-      {/* CTA Section */}
+    
       <div className="py-5 text-white" style={{ backgroundColor: "rgb(250, 35, 35)" }}>
         <Container>
           <Row className="align-items-center">
